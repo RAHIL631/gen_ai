@@ -1,0 +1,219 @@
+drug_a,drug_b,severity,interaction_type,mechanism,recommendation
+Aspirin,Warfarin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Warfarin,Aspirin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Acetylsalicylic Acid,Warfarin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Warfarin,Acetylsalicylic Acid,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Ecotrin,Warfarin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Warfarin,Ecotrin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Bayer,Warfarin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Warfarin,Bayer,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Aspirin,Coumadin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Coumadin,Aspirin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Aspirin,Jantoven,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Jantoven,Aspirin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Acetylsalicylic Acid,Coumadin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Coumadin,Acetylsalicylic Acid,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Acetylsalicylic Acid,Jantoven,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Jantoven,Acetylsalicylic Acid,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Ecotrin,Coumadin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Coumadin,Ecotrin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Ecotrin,Jantoven,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Jantoven,Ecotrin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Bayer,Coumadin,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Coumadin,Bayer,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Bayer,Jantoven,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Jantoven,Bayer,MAJOR,Pharmacodynamic,Aspirin may increase the anticoagulant activities of Warfarin. Increased risk of bleeding.,Avoid combination or monitor INR closely.
+Sildenafil,Isosorbide Mononitrate,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Isosorbide Mononitrate,Sildenafil,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Viagra,Isosorbide Mononitrate,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Isosorbide Mononitrate,Viagra,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Revatio,Isosorbide Mononitrate,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Isosorbide Mononitrate,Revatio,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Sildenafil,Nitroglycerin,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Nitroglycerin,Sildenafil,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Viagra,Nitroglycerin,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Nitroglycerin,Viagra,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Revatio,Nitroglycerin,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Nitroglycerin,Revatio,CONTRAINDICATED,Pharmacodynamic,Sildenafil amplifies the vasodilatory effects of nitrates. Severe hypotension.,Absolutely contraindicated.
+Lisinopril,Ibuprofen,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Ibuprofen,Lisinopril,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Prinivil,Ibuprofen,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Ibuprofen,Prinivil,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Zestril,Ibuprofen,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Ibuprofen,Zestril,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Lisinopril,Advil,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Advil,Lisinopril,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Lisinopril,Motrin,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Motrin,Lisinopril,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Prinivil,Advil,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Advil,Prinivil,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Prinivil,Motrin,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Motrin,Prinivil,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Zestril,Advil,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Advil,Zestril,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Zestril,Motrin,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Motrin,Zestril,MODERATE,Pharmacodynamic,Ibuprofen may decrease the antihypertensive activities of Lisinopril and increase renal toxicity risk.,Monitor blood pressure and renal function.
+Simvastatin,Amiodarone,MAJOR,Pharmacokinetic,"Amiodarone inhibits CYP3A4, increasing Simvastatin levels. High risk of myopathy/rhabdomyolysis.",Limit simvastatin to 20 mg/day or use alternative statin.
+Amiodarone,Simvastatin,MAJOR,Pharmacokinetic,"Amiodarone inhibits CYP3A4, increasing Simvastatin levels. High risk of myopathy/rhabdomyolysis.",Limit simvastatin to 20 mg/day or use alternative statin.
+Zocor,Amiodarone,MAJOR,Pharmacokinetic,"Amiodarone inhibits CYP3A4, increasing Simvastatin levels. High risk of myopathy/rhabdomyolysis.",Limit simvastatin to 20 mg/day or use alternative statin.
+Amiodarone,Zocor,MAJOR,Pharmacokinetic,"Amiodarone inhibits CYP3A4, increasing Simvastatin levels. High risk of myopathy/rhabdomyolysis.",Limit simvastatin to 20 mg/day or use alternative statin.
+Clopidogrel,Omeprazole,MAJOR,Pharmacokinetic,"Omeprazole inhibits CYP2C19, reducing the active metabolite of Clopidogrel. Reduced antiplatelet effect.",Use alternative PPI like pantoprazole.
+Omeprazole,Clopidogrel,MAJOR,Pharmacokinetic,"Omeprazole inhibits CYP2C19, reducing the active metabolite of Clopidogrel. Reduced antiplatelet effect.",Use alternative PPI like pantoprazole.
+Clopidogrel,Prilosec,MAJOR,Pharmacokinetic,"Omeprazole inhibits CYP2C19, reducing the active metabolite of Clopidogrel. Reduced antiplatelet effect.",Use alternative PPI like pantoprazole.
+Prilosec,Clopidogrel,MAJOR,Pharmacokinetic,"Omeprazole inhibits CYP2C19, reducing the active metabolite of Clopidogrel. Reduced antiplatelet effect.",Use alternative PPI like pantoprazole.
+Levothyroxine,Calcium Carbonate,MODERATE,Pharmacokinetic,"Calcium carbonate binds to levothyroxine in the GI tract, reducing absorption.",Separate administration by at least 4 hours.
+Calcium Carbonate,Levothyroxine,MODERATE,Pharmacokinetic,"Calcium carbonate binds to levothyroxine in the GI tract, reducing absorption.",Separate administration by at least 4 hours.
+Ciprofloxacin,Calcium Carbonate,MAJOR,Pharmacokinetic,"Calcium forms insoluble chelates with Ciprofloxacin, drastically reducing absorption.",Administer ciprofloxacin 2 hours before or 6 hours after calcium.
+Calcium Carbonate,Ciprofloxacin,MAJOR,Pharmacokinetic,"Calcium forms insoluble chelates with Ciprofloxacin, drastically reducing absorption.",Administer ciprofloxacin 2 hours before or 6 hours after calcium.
+Spironolactone,Lisinopril,MAJOR,Pharmacodynamic,Both drugs increase serum potassium levels. Risk of severe hyperkalemia.,Monitor serum potassium closely if combined.
+Lisinopril,Spironolactone,MAJOR,Pharmacodynamic,Both drugs increase serum potassium levels. Risk of severe hyperkalemia.,Monitor serum potassium closely if combined.
+Spironolactone,Prinivil,MAJOR,Pharmacodynamic,Both drugs increase serum potassium levels. Risk of severe hyperkalemia.,Monitor serum potassium closely if combined.
+Prinivil,Spironolactone,MAJOR,Pharmacodynamic,Both drugs increase serum potassium levels. Risk of severe hyperkalemia.,Monitor serum potassium closely if combined.
+Spironolactone,Zestril,MAJOR,Pharmacodynamic,Both drugs increase serum potassium levels. Risk of severe hyperkalemia.,Monitor serum potassium closely if combined.
+Zestril,Spironolactone,MAJOR,Pharmacodynamic,Both drugs increase serum potassium levels. Risk of severe hyperkalemia.,Monitor serum potassium closely if combined.
+Atorvastatin,Clarithromycin,MAJOR,Pharmacokinetic,"Clarithromycin strongly inhibits CYP3A4, raising Atorvastatin levels. Rhabdomyolysis risk.",Suspend atorvastatin during clarithromycin therapy.
+Clarithromycin,Atorvastatin,MAJOR,Pharmacokinetic,"Clarithromycin strongly inhibits CYP3A4, raising Atorvastatin levels. Rhabdomyolysis risk.",Suspend atorvastatin during clarithromycin therapy.
+Lipitor,Clarithromycin,MAJOR,Pharmacokinetic,"Clarithromycin strongly inhibits CYP3A4, raising Atorvastatin levels. Rhabdomyolysis risk.",Suspend atorvastatin during clarithromycin therapy.
+Clarithromycin,Lipitor,MAJOR,Pharmacokinetic,"Clarithromycin strongly inhibits CYP3A4, raising Atorvastatin levels. Rhabdomyolysis risk.",Suspend atorvastatin during clarithromycin therapy.
+Metronidazole,Alcohol,CONTRAINDICATED,Pharmacodynamic,"Disulfiram-like reaction (nausea, vomiting, flushing, tachycardia).",Avoid alcohol during and for 3 days after therapy.
+Alcohol,Metronidazole,CONTRAINDICATED,Pharmacodynamic,"Disulfiram-like reaction (nausea, vomiting, flushing, tachycardia).",Avoid alcohol during and for 3 days after therapy.
+Lithium,Ibuprofen,MAJOR,Pharmacokinetic,"NSAIDs reduce renal clearance of lithium, leading to lithium toxicity.","Avoid NSAIDs, use acetaminophen for pain."
+Ibuprofen,Lithium,MAJOR,Pharmacokinetic,"NSAIDs reduce renal clearance of lithium, leading to lithium toxicity.","Avoid NSAIDs, use acetaminophen for pain."
+Lithium,Advil,MAJOR,Pharmacokinetic,"NSAIDs reduce renal clearance of lithium, leading to lithium toxicity.","Avoid NSAIDs, use acetaminophen for pain."
+Advil,Lithium,MAJOR,Pharmacokinetic,"NSAIDs reduce renal clearance of lithium, leading to lithium toxicity.","Avoid NSAIDs, use acetaminophen for pain."
+Lithium,Motrin,MAJOR,Pharmacokinetic,"NSAIDs reduce renal clearance of lithium, leading to lithium toxicity.","Avoid NSAIDs, use acetaminophen for pain."
+Motrin,Lithium,MAJOR,Pharmacokinetic,"NSAIDs reduce renal clearance of lithium, leading to lithium toxicity.","Avoid NSAIDs, use acetaminophen for pain."
+Digoxin,Amiodarone,MAJOR,Pharmacokinetic,"Amiodarone inhibits P-glycoprotein, doubling serum Digoxin levels. Risk of digoxin toxicity.",Reduce digoxin dose by 50% and monitor levels.
+Amiodarone,Digoxin,MAJOR,Pharmacokinetic,"Amiodarone inhibits P-glycoprotein, doubling serum Digoxin levels. Risk of digoxin toxicity.",Reduce digoxin dose by 50% and monitor levels.
+Fluoxetine,Phenelzine,CONTRAINDICATED,Pharmacodynamic,Combination of SSRI and MAOI. High risk of fatal serotonin syndrome.,Washout period of 5 weeks required before starting MAOI.
+Phenelzine,Fluoxetine,CONTRAINDICATED,Pharmacodynamic,Combination of SSRI and MAOI. High risk of fatal serotonin syndrome.,Washout period of 5 weeks required before starting MAOI.
+Prozac,Phenelzine,CONTRAINDICATED,Pharmacodynamic,Combination of SSRI and MAOI. High risk of fatal serotonin syndrome.,Washout period of 5 weeks required before starting MAOI.
+Phenelzine,Prozac,CONTRAINDICATED,Pharmacodynamic,Combination of SSRI and MAOI. High risk of fatal serotonin syndrome.,Washout period of 5 weeks required before starting MAOI.
+Sertraline,St. John's Wort,MAJOR,Pharmacodynamic,Additive serotonergic effects. Risk of serotonin syndrome.,Avoid combination.
+St. John's Wort,Sertraline,MAJOR,Pharmacodynamic,Additive serotonergic effects. Risk of serotonin syndrome.,Avoid combination.
+Zoloft,St. John's Wort,MAJOR,Pharmacodynamic,Additive serotonergic effects. Risk of serotonin syndrome.,Avoid combination.
+St. John's Wort,Zoloft,MAJOR,Pharmacodynamic,Additive serotonergic effects. Risk of serotonin syndrome.,Avoid combination.
+Alprazolam,Ketoconazole,MAJOR,Pharmacokinetic,"Ketoconazole is a potent CYP3A4 inhibitor, increasing alprazolam toxicity (sedation, respiratory depression).",Avoid combination or significantly reduce alprazolam dose.
+Ketoconazole,Alprazolam,MAJOR,Pharmacokinetic,"Ketoconazole is a potent CYP3A4 inhibitor, increasing alprazolam toxicity (sedation, respiratory depression).",Avoid combination or significantly reduce alprazolam dose.
+Xanax,Ketoconazole,MAJOR,Pharmacokinetic,"Ketoconazole is a potent CYP3A4 inhibitor, increasing alprazolam toxicity (sedation, respiratory depression).",Avoid combination or significantly reduce alprazolam dose.
+Ketoconazole,Xanax,MAJOR,Pharmacokinetic,"Ketoconazole is a potent CYP3A4 inhibitor, increasing alprazolam toxicity (sedation, respiratory depression).",Avoid combination or significantly reduce alprazolam dose.
+Warfarin,Fluconazole,MAJOR,Pharmacokinetic,"Fluconazole inhibits CYP2C9, significantly increasing Warfarin effects and bleeding risk.",Monitor INR closely and adjust warfarin dose.
+Fluconazole,Warfarin,MAJOR,Pharmacokinetic,"Fluconazole inhibits CYP2C9, significantly increasing Warfarin effects and bleeding risk.",Monitor INR closely and adjust warfarin dose.
+Coumadin,Fluconazole,MAJOR,Pharmacokinetic,"Fluconazole inhibits CYP2C9, significantly increasing Warfarin effects and bleeding risk.",Monitor INR closely and adjust warfarin dose.
+Fluconazole,Coumadin,MAJOR,Pharmacokinetic,"Fluconazole inhibits CYP2C9, significantly increasing Warfarin effects and bleeding risk.",Monitor INR closely and adjust warfarin dose.
+Jantoven,Fluconazole,MAJOR,Pharmacokinetic,"Fluconazole inhibits CYP2C9, significantly increasing Warfarin effects and bleeding risk.",Monitor INR closely and adjust warfarin dose.
+Fluconazole,Jantoven,MAJOR,Pharmacokinetic,"Fluconazole inhibits CYP2C9, significantly increasing Warfarin effects and bleeding risk.",Monitor INR closely and adjust warfarin dose.
+Methotrexate,Trimethoprim,CONTRAINDICATED,Pharmacodynamic,Additive antifolate effects leading to severe bone marrow suppression and pancytopenia.,Avoid combination.
+Trimethoprim,Methotrexate,CONTRAINDICATED,Pharmacodynamic,Additive antifolate effects leading to severe bone marrow suppression and pancytopenia.,Avoid combination.
+Tramadol,Fluoxetine,MAJOR,Pharmacodynamic,Fluoxetine inhibits CYP2D6 (reducing tramadol efficacy) and adds serotonergic effects (serotonin syndrome risk).,"Avoid combination, use alternative analgesic."
+Fluoxetine,Tramadol,MAJOR,Pharmacodynamic,Fluoxetine inhibits CYP2D6 (reducing tramadol efficacy) and adds serotonergic effects (serotonin syndrome risk).,"Avoid combination, use alternative analgesic."
+Tramadol,Prozac,MAJOR,Pharmacodynamic,Fluoxetine inhibits CYP2D6 (reducing tramadol efficacy) and adds serotonergic effects (serotonin syndrome risk).,"Avoid combination, use alternative analgesic."
+Prozac,Tramadol,MAJOR,Pharmacodynamic,Fluoxetine inhibits CYP2D6 (reducing tramadol efficacy) and adds serotonergic effects (serotonin syndrome risk).,"Avoid combination, use alternative analgesic."
+Azithromycin,Ondansetron,MODERATE,Pharmacodynamic,Both drugs can prolong the QT interval. Risk of Torsades de Pointes.,Monitor ECG in patients with risk factors.
+Ondansetron,Azithromycin,MODERATE,Pharmacodynamic,Both drugs can prolong the QT interval. Risk of Torsades de Pointes.,Monitor ECG in patients with risk factors.
+Insulin Glargine,Propranolol,MODERATE,Pharmacodynamic,"Beta-blockers can mask symptoms of hypoglycemia (e.g., tachycardia).",Educate patient on other signs of hypoglycemia (sweating).
+Propranolol,Insulin Glargine,MODERATE,Pharmacodynamic,"Beta-blockers can mask symptoms of hypoglycemia (e.g., tachycardia).",Educate patient on other signs of hypoglycemia (sweating).
+Rivaroxaban,Phenytoin,MAJOR,Pharmacokinetic,"Phenytoin induces CYP3A4 and P-gp, decreasing Rivaroxaban efficacy and increasing stroke risk.",Avoid combination.
+Phenytoin,Rivaroxaban,MAJOR,Pharmacokinetic,"Phenytoin induces CYP3A4 and P-gp, decreasing Rivaroxaban efficacy and increasing stroke risk.",Avoid combination.
+Diltiazem,Metoprolol,MAJOR,Pharmacodynamic,Additive negative chronotropic and inotropic effects. Risk of severe bradycardia and heart block.,Monitor heart rate and ECG closely.
+Metoprolol,Diltiazem,MAJOR,Pharmacodynamic,Additive negative chronotropic and inotropic effects. Risk of severe bradycardia and heart block.,Monitor heart rate and ECG closely.
+Diltiazem,Lopressor,MAJOR,Pharmacodynamic,Additive negative chronotropic and inotropic effects. Risk of severe bradycardia and heart block.,Monitor heart rate and ECG closely.
+Lopressor,Diltiazem,MAJOR,Pharmacodynamic,Additive negative chronotropic and inotropic effects. Risk of severe bradycardia and heart block.,Monitor heart rate and ECG closely.
+Diltiazem,Toprol XL,MAJOR,Pharmacodynamic,Additive negative chronotropic and inotropic effects. Risk of severe bradycardia and heart block.,Monitor heart rate and ECG closely.
+Toprol XL,Diltiazem,MAJOR,Pharmacodynamic,Additive negative chronotropic and inotropic effects. Risk of severe bradycardia and heart block.,Monitor heart rate and ECG closely.
+Carbamazepine,Oral Contraceptives,MAJOR,Pharmacokinetic,"Carbamazepine strongly induces hepatic enzymes, reducing efficacy of birth control. Pregnancy risk.",Use alternative non-hormonal contraception.
+Oral Contraceptives,Carbamazepine,MAJOR,Pharmacokinetic,"Carbamazepine strongly induces hepatic enzymes, reducing efficacy of birth control. Pregnancy risk.",Use alternative non-hormonal contraception.
+Erythromycin,Simvastatin,CONTRAINDICATED,Pharmacokinetic,Erythromycin strongly inhibits CYP3A4. Very high risk of rhabdomyolysis.,Contraindicated. Suspend statin or use alternative antibiotic.
+Simvastatin,Erythromycin,CONTRAINDICATED,Pharmacokinetic,Erythromycin strongly inhibits CYP3A4. Very high risk of rhabdomyolysis.,Contraindicated. Suspend statin or use alternative antibiotic.
+Erythromycin,Zocor,CONTRAINDICATED,Pharmacokinetic,Erythromycin strongly inhibits CYP3A4. Very high risk of rhabdomyolysis.,Contraindicated. Suspend statin or use alternative antibiotic.
+Zocor,Erythromycin,CONTRAINDICATED,Pharmacokinetic,Erythromycin strongly inhibits CYP3A4. Very high risk of rhabdomyolysis.,Contraindicated. Suspend statin or use alternative antibiotic.
+Vitamin C,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin C,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Vitamin C,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Vitamin D,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Vitamin D,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Biotin,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Biotin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Folic Acid,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Folic Acid,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Zinc,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Zinc,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Magnesium,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Magnesium,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Loratadine,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Loratadine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cetirizine,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Cetirizine,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Amoxicillin,Cephalexin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.
+Cephalexin,Amoxicillin,LOW,None,No clinically significant interaction expected.,Standard dosing appropriate.

@@ -1,0 +1,6 @@
+{
+  "name": "PharmAI Console",
+  "description": "Clinical-grade AI drug interaction checker and clinical insights platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
