@@ -1,74 +1,19 @@
 import axios from 'axios';
 import { AnalysisResult, CheckHistory, Severity } from '../types';
-import { GoogleGenAI, Type } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // Local Storage Keys
 const HISTORY_KEY = 'pharmai_history';
 const STATS_KEY = 'pharmai_stats';
 
+const API_BASE_URL = 'http://localhost:8000/api';
+
 export async function checkInteractionsApi(medicationText: string): Promise<AnalysisResult> {
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.1-pro-preview",
-      contents: `Analyze the following medication list for drug interactions, identify any metabolic conflicts or contraindications, and generate tailored clinical insights:
-      
-Medication List:
-${medicationText}`,
-      config: {
-        responseMimeType: "application/json",
-        systemInstruction: "You are an advanced clinical decision support system. Analyze the provided medication text, identify the exact drugs, and perform a strict pharmacological interaction analysis.",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            totalDrugs: { type: Type.INTEGER, description: "Total number of recognized drugs in the text" },
-            interactionsFound: { type: Type.INTEGER, description: "Total number of interactions found" },
-            highRiskAlerts: { type: Type.INTEGER, description: "Total number of high risk (MAJOR or CONTRAINDICATED) alerts" },
-            safeCombinations: { type: Type.INTEGER, description: "Total number of safe combinations" },
-            interactions: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  drugs: {
-                    type: Type.ARRAY,
-                    items: { type: Type.STRING },
-                    description: "The pair or group of drugs interacting"
-                  },
-                  severity: {
-                    type: Type.STRING,
-                    enum: ['LOW', 'MODERATE', 'MAJOR', 'CONTRAINDICATED'],
-                    description: "Severity of the interaction"
-                  },
-                  type: { type: Type.STRING, description: "Type of interaction (e.g. Pharmacokinetic, Pharmacodynamic)" },
-                  mechanism: { type: Type.STRING, description: "Detailed clinical mechanism of the interaction" },
-                  recommendation: { type: Type.STRING, description: "Actionable recommendation for the clinician" },
-                  confidence: { type: Type.NUMBER, description: "Confidence score between 0.0 and 1.0" }
-                },
-                required: ['drugs', 'severity', 'type', 'mechanism', 'recommendation', 'confidence']
-              }
-            },
-            clinicalInsights: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  title: { type: Type.STRING, description: "Title of the clinical insight" },
-                  description: { type: Type.STRING, description: "Detailed description of the clinical insight" },
-                  severity: { type: Type.STRING, enum: ['error', 'warning', 'info'], description: "Severity of the insight" }
-                },
-                required: ['title', 'description', 'severity']
-              }
-            }
-          },
-          required: ['totalDrugs', 'interactionsFound', 'highRiskAlerts', 'safeCombinations', 'interactions', 'clinicalInsights']
-        }
-      }
+    const response = await axios.post(`${API_BASE_URL}/check/`, {
+      medication_text: medicationText
     });
-
-    const resultText = response.text || "{}";
-    const result = JSON.parse(resultText) as AnalysisResult;
+    
+    const result = response.data as AnalysisResult;
 
     // Save to history
     saveToHistory(medicationText, result);
@@ -79,6 +24,31 @@ ${medicationText}`,
     throw error;
   }
 }
+
+export async function processOcrApi(file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+  const response = await axios.post(`${API_BASE_URL}/features/ocr-prescription`, formData);
+  return response.data;
+}
+
+export async function processVoiceApi(file: Blob) {
+  const formData = new FormData();
+  formData.append("file", file, "audio.wav");
+  const response = await axios.post(`${API_BASE_URL}/features/voice-to-text`, formData);
+  return response.data;
+}
+
+export async function getPatientRiskApi(data: any) {
+  const response = await axios.post(`${API_BASE_URL}/features/patient-risk`, data);
+  return response.data;
+}
+
+export async function getInteractionGraphApi(drugs: string) {
+  const response = await axios.get(`${API_BASE_URL}/features/interaction-graph?drugs=${encodeURIComponent(drugs)}`);
+  return response.data;
+}
+
 
 function saveToHistory(text: string, result: AnalysisResult) {
   let existing = [];

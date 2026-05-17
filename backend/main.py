@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import routers
-from backend.routers import health, analysis, drugs, auth, history
+from backend.routers import health, analysis, drugs, auth, history, features
 from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -33,6 +33,7 @@ app.include_router(history.router)
 app.include_router(health.router)
 app.include_router(analysis.router)
 app.include_router(drugs.router)
+app.include_router(features.router)
 
 @app.on_event("startup")
 async def startup_event():

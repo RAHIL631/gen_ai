@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { FileText, Mic, AlertTriangle, Ban, BrainCircuit, CheckCircle2, Loader2, Sparkles, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { FileText, Mic, AlertTriangle, Ban, BrainCircuit, CheckCircle2, Loader2, Sparkles, ExternalLink, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { checkInteractionsApi, getHistoryApi } from '../services/api';
+import { checkInteractionsApi, getHistoryApi, processOcrApi, processVoiceApi, getPatientRiskApi } from '../services/api';
 import { AnalysisResult, Severity } from '../types';
 import { cn } from '../utils';
 import { toast } from 'sonner';
@@ -12,22 +12,79 @@ export default function DrugCheckerPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [recentChecks, setRecentChecks] = useState<any[]>([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const [riskScore, setRiskScore] = useState<any>(null);
 
   useEffect(() => { getHistoryApi().then(d => setRecentChecks(d.slice(0, 5))); }, []);
 
   const handleAnalyze = async () => {
     if (!inputText.trim()) return;
-    setIsAnalyzing(true); setResult(null);
+    setIsAnalyzing(true); setResult(null); setRiskScore(null);
     const toastId = toast.loading('Initiating AI protocol...');
     try {
       const data = await checkInteractionsApi(inputText);
       setResult(data);
       if (data.highRiskAlerts > 0) toast.error(`Found ${data.highRiskAlerts} critical anomalies!`, { id: toastId });
       else toast.success('Analysis Complete: Payload clear.', { id: toastId });
+      
+      // Also get risk score
+      const drugs = data.interactions.flatMap(i => i.drugs);
+      if (drugs.length > 0) {
+        const risk = await getPatientRiskApi({
+          age: 45, kidney_disease: false, liver_disease: false, pregnancy: false, diabetes: false, medications: drugs
+        });
+        setRiskScore(risk);
+      }
+      
       getHistoryApi().then(d => setRecentChecks(d.slice(0, 5)));
     } catch {
       toast.error('System failure. Please check network uplink.', { id: toastId });
     } finally { setIsAnalyzing(false); }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+    const file = e.target.files[0];
+    const toastId = toast.loading('Running OCR extraction...');
+    try {
+      const res = await processOcrApi(file);
+      setInputText(prev => (prev ? prev + '\n' : '') + res.extracted_text);
+      toast.success('Text extracted successfully', { id: toastId });
+    } catch {
+      toast.error('Failed to extract text from image', { id: toastId });
+    }
+  };
+
+  const toggleRecording = async () => {
+    if (isRecording) {
+      mediaRecorderRef.current?.stop();
+      setIsRecording(false);
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+      mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunksRef.current.push(e.data); };
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+        const toastId = toast.loading('Processing voice input...');
+        try {
+          const res = await processVoiceApi(audioBlob);
+          setInputText(prev => (prev ? prev + ' ' : '') + res.extracted_text);
+          toast.success('Voice transcribed successfully', { id: toastId });
+        } catch {
+          toast.error('Voice processing failed', { id: toastId });
+        }
+      };
+      mediaRecorder.start();
+      setIsRecording(true);
+    } catch (e) {
+      toast.error('Microphone access denied');
+    }
   };
 
   return (
@@ -51,14 +108,27 @@ export default function DrugCheckerPage() {
                 </div>
                 Data Payload
               </h3>
-              <button className="btn-ghost !py-2 !px-4 !text-xs !rounded-xl flex items-center gap-2">
-                <Mic size={14} /> <span className="hidden sm:inline">Voice Link</span>
-              </button>
+              <div className="flex gap-3">
+                <button onClick={toggleRecording} className={cn("btn-ghost !py-2 !px-4 !text-xs !rounded-xl flex items-center gap-2 transition-colors", isRecording && "bg-rose-500/20 text-rose-400 hover:bg-rose-500/30")}>
+                  <Mic size={14} className={isRecording ? "animate-pulse" : ""} /> <span className="hidden sm:inline">{isRecording ? "Recording..." : "Voice Link"}</span>
+                </button>
+                <label className="btn-ghost !py-2 !px-4 !text-xs !rounded-xl flex items-center gap-2 cursor-pointer">
+                  <input type="file" accept="image/*,.pdf" className="hidden" onChange={handleFileUpload} />
+                  <Sparkles size={14} /> <span className="hidden sm:inline">Upload OCR</span>
+                </label>
+              </div>
             </div>
             <div className="relative mb-6 z-10">
+              <div className="flex flex-wrap gap-2 mb-3">
+                {inputText.split(/[,+&]|\sand\s/).map((drug, i) => drug.trim() ? (
+                  <span key={i} className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-lg text-xs font-medium">
+                    {drug.trim()}
+                  </span>
+                ) : null)}
+              </div>
               <textarea
                 className={cn(
-                  'w-full rounded-2xl p-5 min-h-[180px] resize-none outline-none text-base text-white/80 leading-relaxed transition-all duration-300',
+                  'w-full rounded-2xl p-5 min-h-[140px] resize-none outline-none text-base text-white/80 leading-relaxed transition-all duration-300',
                   'border border-white/8 focus:border-blue-500/40 focus:ring-2',
                   isAnalyzing && 'opacity-40 pointer-events-none'
                 )}
@@ -148,8 +218,31 @@ export default function DrugCheckerPage() {
                 <p className="text-[10px] text-blue-400/70 font-bold uppercase tracking-widest mt-0.5">Generative Model</p>
               </div>
             </div>
+
+            {riskScore && (
+              <div className="mb-4 p-4 rounded-xl border border-white/10" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                <h4 className="text-xs font-bold text-white/50 uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <Activity size={14} className={riskScore.risk_level === 'HIGH' ? 'text-rose-400' : 'text-blue-400'} />
+                  Patient Risk Index
+                </h4>
+                <div className="flex items-end gap-3 mb-2">
+                  <span className={cn("text-3xl font-bold", riskScore.risk_level === 'HIGH' ? 'text-rose-400' : 'text-blue-400')}>
+                    {(riskScore.risk_score * 100).toFixed(0)}%
+                  </span>
+                  <span className={cn("badge text-[9px] mb-1.5", riskScore.risk_level === 'HIGH' ? 'bg-rose-500/10 text-rose-400' : 'bg-blue-500/10 text-blue-400')}>
+                    {riskScore.risk_level} RISK
+                  </span>
+                </div>
+                {riskScore.clinical_reasons.map((r:string, i:number) => (
+                  <p key={i} className="text-xs text-white/60 mb-1 flex items-start gap-2">
+                    <span className="w-1 h-1 rounded-full bg-white/20 mt-1.5 shrink-0" /> {r}
+                  </p>
+                ))}
+              </div>
+            )}
+
             <div className="flex flex-col gap-3">
-              {result?.clinicalInsights.map((insight, i) => (
+              {result?.clinicalInsights.map((insight: any, i: number) => (
                 <div key={i} className="p-4 rounded-2xl border border-white/5 hover:border-white/10 transition-colors" style={{ background: 'rgba(0,0,0,0.2)' }}>
                   <h4 className={cn('text-xs font-bold flex items-start gap-2.5 mb-2 uppercase tracking-wide',
                     insight.severity==='error' ? 'text-rose-400' : insight.severity==='warning' ? 'text-amber-400' : 'text-emerald-400')}>

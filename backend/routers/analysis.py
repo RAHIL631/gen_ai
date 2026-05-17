@@ -2,7 +2,8 @@ from fastapi import APIRouter, HTTPException, Depends
 import itertools
 from datetime import datetime
 from backend.models.schemas import AnalysisRequest, AnalysisResponse
-from backend.services.ml_service import extract_drugs_local, perform_ml_analysis
+from backend.services.ai_service import ai_service_instance
+from backend.services.ml_service import extract_drugs_local
 from backend.services.safety_layer import evaluate_emergency_status
 from backend.services.auth_service import get_current_active_user
 from backend.models.auth import UserInDB
@@ -24,8 +25,8 @@ async def check_interactions(request: AnalysisRequest, current_user: UserInDB = 
         extracted_drugs = extract_drugs_local(med_text)
         logger.info(f"Extracted drugs: {extracted_drugs}")
         
-        # 2 & 3. Analysis phase using local Scikit-Learn Model
-        result = perform_ml_analysis(med_text, extracted_drugs)
+        # 2 & 3. Analysis phase using Transformer + ChromaDB AI Service
+        result = ai_service_instance.check_interaction(extracted_drugs)
         
         # 4. Safety & Emergency Layer
         safe_result = evaluate_emergency_status(result)
