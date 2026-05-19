@@ -1,124 +1,220 @@
-# PharmAI Enterprise
-**Advanced AI Healthcare Platform for Drug Interaction Detection & Analysis**
+# 🛡️ PharmAI Enterprise Console
+> **Next-Generation, Production-Grade Biomedical AI Platform for Clinical Safety & Drug-Drug Interaction Diagnostics**
 
-PharmAI is a production-grade, highly scalable, and medically accurate AI platform designed for clinical environments. It leverages cutting-edge NLP (PubMedBERT), Vector Databases (ChromaDB), and RAG (Retrieval-Augmented Generation) to deliver verified, explainable, and instantaneous drug interaction safety checks.
+[![React](https://img.shields.io/badge/Frontend-React%2019-teal?style=for-the-badge&logo=react)](https://react.dev)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-emerald?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+[![Vector DB](https://img.shields.io/badge/Vector%20Store-ChromaDB-blue?style=for-the-badge&logo=sqlite)](https://github.com/chroma-core/chroma)
+[![PubMedBERT](https://img.shields.io/badge/NLP%20Model-PubMedBERT-sky?style=for-the-badge&logo=huggingface)](https://huggingface.co/microsoft/BiomedNLP-PubMedBERT-base-uncased-abstract-fulltext)
+[![Auth](https://img.shields.io/badge/Auth-Clerk-purple?style=for-the-badge&logo=clerk)](https://clerk.com)
+[![Database](https://img.shields.io/badge/Relational%20Store-PostgreSQL%20%2F%20SQLite-indigo?style=for-the-badge&logo=postgresql)](https://www.postgresql.org)
 
----
-
-## 🌟 Key Enterprise Features
-
-- **Explainable AI (XAI)**: Not just predictions. PharmAI delivers the exact pharmacological mechanism and cites the retrieved medical evidence (e.g., *DrugBank, TWOSIDES*) for every interaction.
-- **RAG & Vector Search**: Utilizes ChromaDB and BioBERT embeddings to fetch real-world clinical data to prevent AI hallucinations.
-- **OCR Prescription Scanning**: Extract medicine names instantly from uploaded prescription images using Tesseract/PaddleOCR.
-- **Voice-to-Text Input**: Dictate complex medical regimens directly into the system using Whisper AI/SpeechRecognition.
-- **Clinical Confidence Thresholds**: AI models flag predictions with < 75% confidence and escalate them to human healthcare providers for manual review.
-- **Premium Glassmorphism UI**: Built with React 19, Tailwind CSS v4, and Framer Motion, offering an intuitive, dark-mode medical dashboard.
-- **PDF Report Generation**: Clinicians can export detailed interaction reports instantly using `jsPDF` for patient files or audits.
-- **PostgreSQL Database**: Persistent, robust storage for user audits, history, and system analytics via SQLAlchemy.
-- **Secure Authentication**: Enterprise-grade identity management integrated via Clerk.
+PharmAI is an enterprise-grade, highly scalable, and medically accurate software-as-a-service (SaaS) platform built for modern clinical environments. Utilizing advanced **Biomedical NLP (PubMedBERT)**, **Vector Store Embeddings (ChromaDB)**, and a robust **Retrieval-Augmented Generation (RAG)** pipeline, the platform analyzes complex medical regimens, highlights potential drug-drug conflicts, and yields explainable AI diagnostics backed by verified clinical evidence.
 
 ---
 
-## 🏗️ Architecture Stack
+## 🚀 System Architecture Layout
 
-### **Frontend**
-- **React.js (Vite)**
-- **Tailwind CSS v4** (Glassmorphism & Medical Themes)
-- **Framer Motion** (Smooth mounting and state transitions)
-- **Recharts** (Interactive data visualization)
-- **Clerk** (Secure JWT Authentication)
-- **jsPDF** (Client-side report generation)
-
-### **Backend**
-- **FastAPI** (High-performance, async Python web framework)
-- **SQLAlchemy & PostgreSQL** (Relational data modeling)
-- **ChromaDB** (Vector Database for RAG embeddings)
-- **HuggingFace Transformers** (PubMedBERT Sequence Classifier)
-- **Pydantic** (Strict data validation and serialization)
-- **Tesseract/SpeechRecognition** (OCR and Voice processing pipelines)
-
----
-
-## 💻 Local Windows Setup Guide (No Docker Required)
-
-Follow these steps strictly to run the entire enterprise stack on a local Windows machine.
-
-### 1. Prerequisites
-- **Python 3.10+**: Ensure `python` and `pip` are added to your System PATH.
-- **Node.js 20+**: Ensure `npm` is installed.
-- **PostgreSQL 15+**: Install locally via the official Windows installer.
-- **Tesseract OCR**: Download the Windows installer from [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki). Install it to `C:\Program Files\Tesseract-OCR`.
-
-### 2. Database Setup (PostgreSQL)
-Open `pgAdmin` or `psql` and create a database:
-```sql
-CREATE DATABASE pharmai_db;
+```mermaid
+graph TD
+    A[React Client / Vite] -- Auth via Clerk --> B[FastAPI Gateway]
+    B -- Check Interactions --> C[Safety Layer API]
+    C -- Local Clinical KB / RAG Search --> D[(ChromaDB Vector DB)]
+    C -- Classification --> E[HuggingFace PubMedBERT]
+    B -- SQL Transactions --> F[(PostgreSQL / SQLite)]
+    F -- Audit Trail Logs --> G[Audit Log Table]
+    F -- Alerts Feed --> H[Alert Table]
+    F -- compliance schedule --> I[Reminders Table]
 ```
 
-### 3. Backend Setup (FastAPI + ChromaDB)
-Open a standard Windows Terminal (PowerShell or Command Prompt) and navigate to the project root:
+---
 
-```bash
-# 1. Create a Python Virtual Environment
+## 🌟 Premium Enterprise Features
+
+### 🧠 Advanced Biomedical RAG & Explainable AI (XAI)
+* **Retrieved Medical Evidence**: No black-box predictions. The system crawls vector storage coordinates mapped from medical literature databases (e.g. *DrugBank*, *TWOSIDES*) to cite verified pharmacological justifications.
+* **Biomedical Sequence Classifier**: Predicts clinical severity (`CONTRAINDICATED`, `MAJOR`, `MODERATE`, `LOW`) using a local pipeline, fine-tuned on PubMed research summaries.
+* **Safety Confidence Thresholds**: Imposes a clinical confidence gate (default: `75%`). Predictions scoring below the threshold are flagged with warning banners advising physician escalations.
+
+### 🔬 Multi-Modal Diagnostic Pipelines
+* **OCR Prescription Extraction**: Snap or drag-and-drop handwritten/printed prescription sheets. Smart clinical Tesseract parser extracts medications automatically with fallback templates.
+* **Voice regimine Dictation**: Clinicians can dictate multi-drug therapy lists hands-free using Speech-to-Text conversion engines.
+
+### 🚨 Real-Time Safety Feed & Alerts Center
+* **Active Safety Feed**: A persistent clinical alerts queue linked directly to SQLAlchemy database models.
+* **Anomalous Log Auditing**: Tracks all resolved/unresolved warnings, allowing standard clinicians to sign-off and mark conflicts resolved with real-time state logs.
+
+### ⏱️ Compliance & Medication Reminders CRUD
+* **Adherence Scheduler**: Built-in interactive console for nurses and physicians to program patient medication reminders, select dosage intervals, and toggle active adherence reminders synced to SQL schemas.
+
+---
+
+## 🏗️ Technical Stack Details
+
+| Layer | Technology | Primary Function |
+| :--- | :--- | :--- |
+| **Frontend** | React 19, TypeScript, Vite | Single-page SaaS interface |
+| **Styling** | Vanilla CSS, HSL Variables, Tailwind CSS | Vibrant Glassmorphic Dark-Mode UI |
+| **State Management** | React Context API, React Router v6 | Auth routing and application-wide state |
+| **Authentication** | Clerk Auth React SDK | Identity management & JWT compliance |
+| **Backend** | FastAPI, Python 3.10 | Async high-performance HTTP service gateway |
+| **ORM** | SQLAlchemy 2.0 | SQL database mapping and relational transactions |
+| **NLP AI models** | HuggingFace Transformers, PyTorch | PubMedBERT (Sequence Classifier) & BioBERT (Embeddings) |
+| **Vector DB** | ChromaDB | High-dimensional indexer for RAG evidence blocks |
+
+---
+
+## 📁 Repository Structure Diagram
+
+```text
+Gen_Ai_project/
+├── backend/
+│   ├── database/
+│   │   ├── config.py         # SQLAlchemy config (SQLite / PostgreSQL auto-switch)
+│   │   └── models.py         # Declarative models (Users, Alerts, Reminders, Audits)
+│   ├── models/
+│   │   └── schemas.py        # Strict Pydantic validators
+│   ├── routers/
+│   │   ├── analysis.py       # Main check-interaction router
+│   │   ├── features.py       # Alerts, Reminders CRUD, OCR & Voice-to-Text APIs
+│   │   └── health.py         # Hardware telemetry and DB connectivity checks
+│   ├── services/
+│   │   ├── ai_service.py     # Explainable AI, Fallback clinical KB, and confidence gates
+│   │   └── ml_service.py     # PubMedBERT inference and model loader pipelines
+│   └── main.py               # FastAPI entrypoint, compliant route aliases, and middleware
+├── src/
+│   ├── components/
+│   │   ├── Sidebar.tsx       # Glassmorphic sidebar navigation
+│   │   └── InteractionGraph.tsx # Color-coded interaction node mapping
+│   ├── pages/
+│   │   ├── AlertsPage.tsx    # Live clinical safety feed and resolution dashboard
+│   │   ├── SettingsPage.tsx  # Clinician profile, scheduler CRUD, and telemetry
+│   │   └── DrugCheckerPage.tsx# Core input deck, OCR scan console, and multi-modal pipeline
+│   ├── services/
+│   │   └── api.ts            # Dual-mode API connectors with offline localStorage caching
+│   └── App.tsx               # Client routes with Clerk auth gates
+└── README.md                 # Product manual and technical spec sheet
+```
+
+---
+
+## 💻 Local Windows Installation Guide
+
+Ensure you have the prerequisites installed:
+* **Python 3.10+** (Added to System environment variable PATH)
+* **Node.js 20+** & **npm**
+* **Tesseract OCR** (Download the windows executable and place it at `C:\Program Files\Tesseract-OCR\tesseract.exe`)
+
+### Step 1: Database Setup
+PharmAI defaults to an automated, persisted local SQLite instance (`pharmai.db`) for effortless local setup. 
+For production PostgreSQL configurations, simply create a schema and declare the credentials inside `backend/.env`:
+```env
+DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/pharmai_db"
+```
+
+### Step 2: Backend Installation
+Open a PowerShell command window inside the project root directory:
+```powershell
+# 1. Create virtual environment
 python -m venv venv
 
-# 2. Activate the virtual environment
+# 2. Activate virtual environment
 .\venv\Scripts\activate
 
-# 3. Install backend dependencies
+# 3. Install core dependencies
 pip install -r requirements.txt
-
-# 4. Configure Environment Variables
-# Create a .env file in the backend directory
-# echo DATABASE_URL="postgresql://postgres:YOURPASSWORD@localhost:5432/pharmai_db" > backend\.env
 ```
 
-*(Note: ChromaDB will run automatically in ephemeral/persistent local mode via the Python package—no separate server is needed).*
-
-### 4. Frontend Setup (React + Vite + Clerk)
-Open a **new** terminal tab (keep the backend terminal open later):
-
-```bash
-# 1. Install frontend dependencies
+### Step 3: Frontend Installation
+Open a second PowerShell window in the project root:
+```powershell
+# Install node packages
 npm install
-
-# 2. Add Clerk Authentication Key
-# Ensure you have your .env.local file with your Clerk key:
-# VITE_CLERK_PUBLISHABLE_KEY=pk_test_YOUR_KEY
 ```
 
-### 5. Running the Application
+### Step 4: Configure Clerk Environment Secrets
+Create a `.env.local` configuration sheet in the root directory:
+```env
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_d29ya2luZy13aXBldC01LmNsZXJrLmFjY291bnRzLmRldiQ
+```
 
-You need two terminals running simultaneously.
+---
 
-**Terminal 1 (Backend):**
-```bash
+## ⚡ Running the Platform
+
+To run the application, run both the backend server and frontend development server simultaneously.
+
+#### **Terminal 1: Backend Gateway**
+```powershell
 .\venv\Scripts\activate
-# Start the FastAPI server on port 8000
 python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 ```
-*API Documentation will be available at: http://localhost:8000/docs*
+* Interactive API interactive endpoints are ready at: `http://localhost:8000/docs`
 
-**Terminal 2 (Frontend):**
-```bash
-# Start the React Vite dev server
+#### **Terminal 2: React Frontend Client**
+```powershell
 npm run dev
 ```
-*The Web Application will be available at: http://localhost:3000*
+* Open your browser and navigate to: `http://localhost:3000`
 
 ---
 
-## 🔬 Explainable AI (XAI) Workflow & RAG Pipeline
+## 🔬 API Endpoint Specifications
 
-When a doctor inputs `Warfarin + Aspirin`:
-1. **Normalization**: The FastAPI backend normalizes the input using a heuristic or RxNorm API wrapper.
-2. **Retrieval (RAG)**: The system queries **ChromaDB** using sentence embeddings to find relevant literature from the DrugBank/TWOSIDES dataset.
-3. **Classification**: The retrieved text is passed to **PubMedBERT**, a model fine-tuned on biomedical abstracts.
-4. **Decision**: The model outputs a severity (`MAJOR`), a confidence score (`96%`), and the retrieved pharmacological mechanism.
-5. **Safety Guardrail**: The `ai_service.py` checks the confidence score. If it drops below `0.75`, it triggers a clinical warning.
-6. **Delivery**: The React UI renders this using color-coded severity badges, confidence meters, and expandable evidence cards.
+### 1. Retrieve Active Alerts Feed
+* **Endpoint**: `GET /api/features/alerts`
+* **Security**: Bearer JWT authenticated
+* **Response Payload**:
+```json
+[
+  {
+    "id": 1,
+    "severity": "CRITICAL",
+    "message": "Severe interaction detected between Warfarin and Aspirin. Synergistic bleeding risk.",
+    "resolved": false,
+    "created_at": "2026-05-19T21:50:00.000Z"
+  }
+]
+```
+
+### 2. Resolve Active Alert
+* **Endpoint**: `POST /api/features/alerts/{alert_id}/resolve`
+* **Response Payload**:
+```json
+{
+  "status": "success",
+  "message": "Alert resolved successfully."
+}
+```
+
+### 3. Retrieve Medication Reminders Compliance List
+* **Endpoint**: `GET /api/features/reminders`
+* **Response Payload**:
+```json
+[
+  {
+    "id": 1,
+    "medication_name": "Atorvastatin",
+    "dosage": "20mg",
+    "time": "20:00",
+    "frequency": "Daily",
+    "active": true
+  }
+]
+```
+
+### 4. Create Medication Reminder Compliance Rule
+* **Endpoint**: `POST /api/features/reminders`
+* **Request Payload**:
+```json
+{
+  "medication_name": "Metformin",
+  "dosage": "500mg",
+  "time": "12:00",
+  "frequency": "Daily"
+}
+```
 
 ---
 
-## 🔒 Medical Disclaimer
-**PharmAI is an informational tool built for educational and enterprise demonstration purposes.** It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a physician or qualified health provider with any questions you may have regarding a medical condition.
+## 🛡️ Medical Disclaimer
+**PharmAI Enterprise Console is an informational diagnostic assistant tool designed for educational, research, and SaaS simulation purposes.** It does not act as a substitute for professional clinical medical advice, diagnostics, therapeutic directives, or physical exams. Always consult a licensed medical professional or primary physician prior to initiating or altering pharmaceutical treatment programs.
