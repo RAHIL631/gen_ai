@@ -1,102 +1,124 @@
-# PharmAI: Advanced Enterprise AI Drug Interaction Platform
+# PharmAI Enterprise
+**Advanced AI Healthcare Platform for Drug Interaction Detection & Analysis**
 
-PharmAI has been transformed into a production-grade healthcare AI platform. Built with a world-class UI, real medical datasets, RAG architecture, vector databases, and offline ML prediction models, it delivers hallucination-free, explainable pharmacological insights.
-
-## Features
-
-- **Biomedical AI Models**: Uses **PubMedBERT** for sequence classification and **BioBERT** embeddings for RAG retrieval.
-- **Explainable AI (XAI)**: Provides mechanism explanations, clinical evidence, and confidence scores for every prediction.
-- **Vector Database**: Implements **ChromaDB** for hyper-fast semantic search of pharmacological datasets.
-- **PostgreSQL Database**: Modular SQLAlchemy architecture storing users, interactions, and audit logs.
-- **Voice Assistant**: Whisper API (SpeechRecognition) for hands-free medication input.
-- **OCR Prescription Scanning**: Tesseract OCR for automated prescription data extraction.
-- **Personalized Risk Analysis**: Tailored risk indexes calculating age, kidney disease, liver disease, and pregnancy factors.
-- **Premium UI/UX**: Built with React, Tailwind CSS, Framer Motion, and Recharts. Features glassmorphism, dynamic glowing neon effects, and dark/light modes.
-
-## Architecture Stack
-
-| Component      | Technology               |
-| -------------- | ------------------------ |
-| **Frontend**   | React, Tailwind CSS      |
-| **Backend**    | FastAPI                  |
-| **Relational DB** | PostgreSQL          |
-| **Vector DB**  | ChromaDB                 |
-| **Embeddings** | Sentence Transformers    |
-| **Classifier** | HuggingFace (PubMedBERT) |
+PharmAI is a production-grade, highly scalable, and medically accurate AI platform designed for clinical environments. It leverages cutting-edge NLP (PubMedBERT), Vector Databases (ChromaDB), and RAG (Retrieval-Augmented Generation) to deliver verified, explainable, and instantaneous drug interaction safety checks.
 
 ---
 
-## Complete Windows Localhost Setup
+## 🌟 Key Enterprise Features
 
-Follow these exact steps to run the complete platform on a local Windows machine. Do **NOT** use Docker.
+- **Explainable AI (XAI)**: Not just predictions. PharmAI delivers the exact pharmacological mechanism and cites the retrieved medical evidence (e.g., *DrugBank, TWOSIDES*) for every interaction.
+- **RAG & Vector Search**: Utilizes ChromaDB and BioBERT embeddings to fetch real-world clinical data to prevent AI hallucinations.
+- **OCR Prescription Scanning**: Extract medicine names instantly from uploaded prescription images using Tesseract/PaddleOCR.
+- **Voice-to-Text Input**: Dictate complex medical regimens directly into the system using Whisper AI/SpeechRecognition.
+- **Clinical Confidence Thresholds**: AI models flag predictions with < 75% confidence and escalate them to human healthcare providers for manual review.
+- **Premium Glassmorphism UI**: Built with React 19, Tailwind CSS v4, and Framer Motion, offering an intuitive, dark-mode medical dashboard.
+- **PDF Report Generation**: Clinicians can export detailed interaction reports instantly using `jsPDF` for patient files or audits.
+- **PostgreSQL Database**: Persistent, robust storage for user audits, history, and system analytics via SQLAlchemy.
+- **Secure Authentication**: Enterprise-grade identity management integrated via Clerk.
+
+---
+
+## 🏗️ Architecture Stack
+
+### **Frontend**
+- **React.js (Vite)**
+- **Tailwind CSS v4** (Glassmorphism & Medical Themes)
+- **Framer Motion** (Smooth mounting and state transitions)
+- **Recharts** (Interactive data visualization)
+- **Clerk** (Secure JWT Authentication)
+- **jsPDF** (Client-side report generation)
+
+### **Backend**
+- **FastAPI** (High-performance, async Python web framework)
+- **SQLAlchemy & PostgreSQL** (Relational data modeling)
+- **ChromaDB** (Vector Database for RAG embeddings)
+- **HuggingFace Transformers** (PubMedBERT Sequence Classifier)
+- **Pydantic** (Strict data validation and serialization)
+- **Tesseract/SpeechRecognition** (OCR and Voice processing pipelines)
+
+---
+
+## 💻 Local Windows Setup Guide (No Docker Required)
+
+Follow these steps strictly to run the entire enterprise stack on a local Windows machine.
 
 ### 1. Prerequisites
-- **Python**: Download and install Python 3.10+ from python.org. Ensure "Add Python to PATH" is checked.
-- **Node.js**: Download and install Node.js 18+ from nodejs.org.
-- **PostgreSQL**: Download and install PostgreSQL for Windows. Create a new database named `pharm_ai`.
+- **Python 3.10+**: Ensure `python` and `pip` are added to your System PATH.
+- **Node.js 20+**: Ensure `npm` is installed.
+- **PostgreSQL 15+**: Install locally via the official Windows installer.
+- **Tesseract OCR**: Download the Windows installer from [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki). Install it to `C:\Program Files\Tesseract-OCR`.
 
-### 2. Backend Setup (Virtual Environment & Dependencies)
-Open PowerShell and navigate to the project directory:
-```powershell
-# Navigate into the backend directory
-cd backend
+### 2. Database Setup (PostgreSQL)
+Open `pgAdmin` or `psql` and create a database:
+```sql
+CREATE DATABASE pharmai_db;
+```
 
-# Create a virtual environment
+### 3. Backend Setup (FastAPI + ChromaDB)
+Open a standard Windows Terminal (PowerShell or Command Prompt) and navigate to the project root:
+
+```bash
+# 1. Create a Python Virtual Environment
 python -m venv venv
 
-# Activate the virtual environment
+# 2. Activate the virtual environment
 .\venv\Scripts\activate
 
-# Install all backend requirements (including PyTorch, ChromaDB, FastAPI)
+# 3. Install backend dependencies
 pip install -r requirements.txt
+
+# 4. Configure Environment Variables
+# Create a .env file in the backend directory
+# echo DATABASE_URL="postgresql://postgres:YOURPASSWORD@localhost:5432/pharmai_db" > backend\.env
 ```
 
-### 3. Initialize ML Models & ChromaDB Vector Database
-While inside the `backend` folder with the virtual environment activated:
-```powershell
-cd etl
+*(Note: ChromaDB will run automatically in ephemeral/persistent local mode via the Python package—no separate server is needed).*
 
-# 1. Generate local datasets and train the PubMedBERT classifier
-python train_model.py
+### 4. Frontend Setup (React + Vite + Clerk)
+Open a **new** terminal tab (keep the backend terminal open later):
 
-# 2. Generate BioBERT embeddings and populate ChromaDB
-python embedding_pipeline.py
-
-cd ..
-```
-*Note: This process will download HuggingFace models locally and may take a few minutes depending on your internet connection.*
-
-### 4. Configure Environment Variables
-Create a `.env` file in the `backend` directory and configure your database URL:
-```env
-# backend/.env
-DATABASE_URL=postgresql://postgres:password@localhost/pharm_ai
-```
-
-### 5. Start the FastAPI Backend
-Start the backend server on port 8000:
-```powershell
-uvicorn main:app --reload
-```
-The API is now running at `http://localhost:8000`. You can access the Swagger documentation at `http://localhost:8000/docs`.
-
-### 6. Frontend Setup
-Open a new PowerShell terminal (do not close the backend terminal), navigate to the root directory:
-```powershell
-# Install Node dependencies
+```bash
+# 1. Install frontend dependencies
 npm install
 
-# Start the Vite development server
+# 2. Add Clerk Authentication Key
+# Ensure you have your .env.local file with your Clerk key:
+# VITE_CLERK_PUBLISHABLE_KEY=pk_test_YOUR_KEY
+```
+
+### 5. Running the Application
+
+You need two terminals running simultaneously.
+
+**Terminal 1 (Backend):**
+```bash
+.\venv\Scripts\activate
+# Start the FastAPI server on port 8000
+python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+```
+*API Documentation will be available at: http://localhost:8000/docs*
+
+**Terminal 2 (Frontend):**
+```bash
+# Start the React Vite dev server
 npm run dev
 ```
-The UI will be accessible at `http://localhost:3000` (or 5173).
+*The Web Application will be available at: http://localhost:3000*
 
 ---
 
-## Datasets Integration
-The AI Pipeline utilizes the following foundational datasets to map interactions:
-1. **DrugBank**: Gold standard pharmacology dataset for RAG base.
-2. **TWOSIDES**: Interaction risk prediction and severity signals.
-3. **RxNorm**: Normalization and canonical drug naming.
-4. **SIDER**: Patient side-effect profiling.
+## 🔬 Explainable AI (XAI) Workflow & RAG Pipeline
 
+When a doctor inputs `Warfarin + Aspirin`:
+1. **Normalization**: The FastAPI backend normalizes the input using a heuristic or RxNorm API wrapper.
+2. **Retrieval (RAG)**: The system queries **ChromaDB** using sentence embeddings to find relevant literature from the DrugBank/TWOSIDES dataset.
+3. **Classification**: The retrieved text is passed to **PubMedBERT**, a model fine-tuned on biomedical abstracts.
+4. **Decision**: The model outputs a severity (`MAJOR`), a confidence score (`96%`), and the retrieved pharmacological mechanism.
+5. **Safety Guardrail**: The `ai_service.py` checks the confidence score. If it drops below `0.75`, it triggers a clinical warning.
+6. **Delivery**: The React UI renders this using color-coded severity badges, confidence meters, and expandable evidence cards.
+
+---
+
+## 🔒 Medical Disclaimer
+**PharmAI is an informational tool built for educational and enterprise demonstration purposes.** It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a physician or qualified health provider with any questions you may have regarding a medical condition.

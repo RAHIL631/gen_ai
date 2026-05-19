@@ -27,7 +27,7 @@ export default function TopNav() {
         <nav className="hidden md:flex items-center gap-1 h-full">
           {[
             { path: '/dashboard', label: 'Overview' },
-            { path: '/checker',   label: 'Smart Check', badge: <Sparkles size={11} className="text-blue-400" /> },
+            { path: '/checker',   label: 'Smart Check', badge: <Sparkles size={11} className="text-teal-400" /> },
             { path: '/history',   label: 'History' },
           ].map(item => (
             <NavLink key={item.path} to={item.path}
@@ -46,8 +46,8 @@ export default function TopNav() {
       <div className="flex items-center gap-2.5">
         {/* Search */}
         <div className="relative hidden sm:flex items-center group">
-          <Search size={15} className="absolute left-3.5 text-white/25 group-focus-within:text-blue-400 transition-colors pointer-events-none" />
-          <input type="text" placeholder="Search payload..."
+          <Search size={15} className="absolute left-3.5 text-white/25 group-focus-within:text-teal-400 transition-colors pointer-events-none" />
+          <input type="text" placeholder="Search medications..."
             className="input-premium !rounded-xl !py-2.5 !pl-9 !pr-4 !text-sm w-52 focus:w-64 transition-all duration-300 !bg-white/4" />
           <div className="absolute right-3 flex items-center gap-1 pointer-events-none">
             <Command size={10} className="text-white/20" />
@@ -68,12 +68,12 @@ export default function TopNav() {
           <button onClick={() => setShowDropdown(!showDropdown)}
             className={cn('flex items-center gap-2.5 py-1.5 pl-1.5 pr-3 rounded-2xl border transition-all',
               showDropdown ? 'bg-white/8 border-white/12' : 'border-transparent hover:bg-white/5 hover:border-white/8')}>
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-blue-400/40 glow-blue shrink-0">
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-teal-400/40 glow-teal shrink-0">
               <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=128&auto=format&fit=crop" alt="" className="w-full h-full object-cover" />
             </div>
             <div className="hidden sm:flex flex-col items-start leading-none">
               <span className="text-sm font-bold text-white/90">{user?.username || 'Dr. E. Vance'}</span>
-              <span className="text-[10px] text-blue-400/80 font-bold uppercase tracking-wider mt-0.5">{user?.role || 'Analyst'}</span>
+              <span className="text-[10px] text-teal-400/80 font-bold uppercase tracking-wider mt-0.5">{user?.role || 'Clinician'}</span>
             </div>
             <ChevronDown size={13} className={cn('text-white/30 transition-transform duration-200', showDropdown && 'rotate-180')} />
           </button>
@@ -93,7 +93,7 @@ export default function TopNav() {
               <div className="pt-1 border-t border-white/8">
                 <button onClick={handleLogout}
                   className="w-full flex items-center gap-3 px-3 py-2.5 text-sm text-rose-400/70 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all font-bold">
-                  <LogOut size={16} /> Terminate Session
+                  <LogOut size={16} /> Sign Out
                 </button>
               </div>
             </div>

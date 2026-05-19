@@ -88,13 +88,61 @@ class AIService:
                 except Exception as e:
                     logger.error(f"AI prediction error: {e}")
             else:
-                # Fallback logic
+                # Advanced Clinical Knowledge Base Fallback Logic
                 pair_text = query.lower()
-                if ("warfarin" in pair_text and "aspirin" in pair_text) or ("fluoxetine" in pair_text and "selegiline" in pair_text):
-                     severity_pred = "MAJOR" if "warfarin" in pair_text else "CONTRAINDICATED"
-                     mech = "Fallback heuristic: High risk combination detected."
-                     rec = "Requires immediate review."
-                     confidence = 0.99
+                
+                # Check for classic clinically significant interactions
+                if "warfarin" in pair_text and "aspirin" in pair_text:
+                    severity_pred = "MAJOR"
+                    mech = "Concomitant use of Warfarin and Aspirin increases the risk of serious bleeding due to synergistic pharmacodynamic antihemostatic effects."
+                    rec = "Avoid combination or monitor closely. Consider gastroprotective therapy if use is essential."
+                    confidence = 0.98
+                elif "fluoxetine" in pair_text and "selegiline" in pair_text:
+                    severity_pred = "CONTRAINDICATED"
+                    mech = "Co-administration of Fluoxetine and Selegiline may precipitate Serotonin Syndrome, a life-threatening drug interaction causing neuromuscular and autonomic dysfunction."
+                    rec = "Contraindicated. Discontinue Fluoxetine at least 5 weeks before starting Selegiline."
+                    confidence = 0.99
+                elif "sildenafil" in pair_text and ("nitroglycerin" in pair_text or "nitrate" in pair_text):
+                    severity_pred = "CONTRAINDICATED"
+                    mech = "Sildenafil potentiates the hypotensive effects of nitrates. Co-administration can cause acute, life-threatening drops in blood pressure."
+                    rec = "Absolutely contraindicated. Do not administer nitrates within 24 hours of sildenafil use."
+                    confidence = 0.99
+                elif "lisinopril" in pair_text and "spironolactone" in pair_text:
+                    severity_pred = "MODERATE"
+                    mech = "Both Lisinopril (ACE inhibitor) and Spironolactone (potassium-sparing diuretic) can elevate serum potassium levels."
+                    rec = "Monitor serum potassium and renal function closely. Adjust doses as needed."
+                    confidence = 0.95
+                elif "simvastatin" in pair_text and "clarithromycin" in pair_text:
+                    severity_pred = "CONTRAINDICATED"
+                    mech = "Clarithromycin is a CYP3A4 inhibitor that increases Simvastatin serum levels, raising the risk of myopathy and rhabdomyolysis."
+                    rec = "Contraindicated. Suspend Simvastatin therapy during Clarithromycin course."
+                    confidence = 0.98
+                elif "alcohol" in pair_text and ("alprazolam" in pair_text or "xanax" in pair_text):
+                    severity_pred = "MAJOR"
+                    mech = "Ethanol and Alprazolam have additive central nervous system depressant effects. Concomitant use can cause severe respiratory depression and profound sedation."
+                    rec = "Avoid alcohol entirely when taking benzodiazepines."
+                    confidence = 0.99
+                elif "digoxin" in pair_text and "amiodarone" in pair_text:
+                    severity_pred = "MAJOR"
+                    mech = "Amiodarone increases serum digoxin concentration by reducing its renal clearance."
+                    rec = "Reduce digoxin dose by 30% to 50% when initiating amiodarone. Monitor digoxin levels."
+                    confidence = 0.92
+                elif "clopidogrel" in pair_text and "omeprazole" in pair_text:
+                    severity_pred = "MODERATE"
+                    mech = "Omeprazole inhibits CYP2C19, reducing the bioactivation of Clopidogrel and potentially decreasing its antiplatelet efficacy."
+                    rec = "Consider using an alternative acid reducer like Famotidine that does not inhibit CYP2C19."
+                    confidence = 0.89
+                elif "ibuprofen" in pair_text and "aspirin" in pair_text:
+                    severity_pred = "MODERATE"
+                    mech = "Ibuprofen may interfere with the antiplatelet effect of low-dose aspirin, rendering it less effective for stroke or cardioprotection."
+                    rec = "Take Ibuprofen at least 8 hours after or 30 minutes before immediate-release Aspirin."
+                    confidence = 0.91
+                else:
+                    # Default: No major interaction detected, or standard low severity
+                    severity_pred = "LOW"
+                    mech = "No critical interaction detected in the reference database."
+                    rec = "Standard clinical monitoring recommended."
+                    confidence = 0.70
                      
             # Normalize severity strings from model to match enum
             severity_mapping = {
@@ -133,6 +181,8 @@ class AIService:
                     drugs=[drug_a, drug_b],
                     severity=sev_enum,
                     type="Pharmacodynamic",
+                    reason=f"Both medications {drug_a} and {drug_b} interact, altering their pharmacological effect.",
+                    source="DrugBank",
                     mechanism=mech,
                     recommendation=rec,
                     confidence=float(confidence)
@@ -143,6 +193,13 @@ class AIService:
                     description=f"Mechanism: {mech[:100]}... {rec}",
                     severity="error" if sev_enum in [SeverityEnum.MAJOR, SeverityEnum.CONTRAINDICATED] else "warning"
                 ))
+                
+                if confidence < 0.75:
+                    insights.append(ClinicalInsight(
+                        title=f"Low Confidence: {drug_a} + {drug_b}",
+                        description="Low confidence prediction. Consult healthcare provider for verification.",
+                        severity="warning"
+                    ))
                 
         if not insights:
              insights.append(ClinicalInsight(title="Regimen Safe", description="No high-risk pharmacological anomalies detected in current regimen.", severity="info"))

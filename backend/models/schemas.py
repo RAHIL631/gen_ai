@@ -12,6 +12,8 @@ class Interaction(BaseModel):
     drugs: List[str] = Field(..., description="List of drugs involved in the interaction")
     severity: SeverityEnum = Field(..., description="Severity level of the interaction")
     type: str = Field(..., description="Type of interaction (e.g., Pharmacodynamic)")
+    reason: str = Field(default="Both medications interact via mechanism.", description="Reason for the interaction")
+    source: str = Field(default="DrugBank", description="Source database of the interaction evidence")
     mechanism: str = Field(..., description="Clinical mechanism of the interaction")
     recommendation: str = Field(..., description="Actionable recommendation")
     confidence: float = Field(..., description="Confidence score of the interaction analysis from 0.0 to 1.0")

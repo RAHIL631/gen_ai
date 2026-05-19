@@ -57,10 +57,10 @@ const alertData = [
 ];
 
 const riskData = [
-  { name: 'Contraindicated', value: 342, color: '#f43f5e' }, // Rose 500
-  { name: 'Major', value: 854, color: '#f59e0b' }, // Amber 500
-  { name: 'Moderate', value: 2104, color: '#3b82f6' }, // Blue 500
-  { name: 'Low', value: 5841, color: '#10b981' }, // Emerald 500
+  { name: 'Contraindicated', value: 342, color: '#f43f5e' }, // Rose
+  { name: 'Major', value: 854, color: '#fb7185' }, // Soft Rose
+  { name: 'Moderate', value: 2104, color: '#38bdf8' }, // Sky-Blue
+  { name: 'Low', value: 5841, color: '#34d399' }, // Emerald
 ];
 
 const userActivity = [
@@ -88,27 +88,29 @@ export default function AdminAnalyticsPage() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-8 pb-12 font-sans bg-[#f8fafc]/50 -m-4 sm:-m-8 p-4 sm:p-8 min-h-screen">
+    <div className="flex flex-col gap-6 pb-10">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+      <div className="flex justify-between items-end">
         <div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-1 tracking-tight">Analytics Dashboard</h2>
-          <p className="text-slate-500 font-medium text-sm">System performance and clinical interaction metrics.</p>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" style={{ boxShadow: '0 0 8px rgba(52,211,153,0.8)' }} />
+            <span className="text-xs text-white/35 font-bold uppercase tracking-widest font-sans">Live System Metrics</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-1">System Diagnostics</h2>
+          <p className="text-white/40 font-medium">Real-time patient safety metrics, API latency, and clinical database health.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="bg-white border border-slate-200 text-slate-700 font-medium rounded-full px-5 py-2 hover:bg-slate-50 transition-colors shadow-sm text-sm flex items-center gap-2">
-              <Download size={16} />
-              Export
+        <div className="hidden md:flex gap-3">
+          <button className="btn-ghost !py-2.5 !px-5 !text-xs !rounded-xl !font-semibold flex items-center gap-2">
+            <Download size={14} /> Export Report
           </button>
-          <button onClick={fetchStats} className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-full px-5 py-2 hover:opacity-90 transition-opacity shadow-sm shadow-blue-500/20 text-sm flex items-center gap-2">
-              <RefreshCw size={16} />
-              Refresh
+          <button onClick={fetchStats} className="btn-primary !py-2.5 !px-5 !text-xs !rounded-xl !font-semibold flex items-center gap-2">
+            <RefreshCw size={14} /> Refresh Diagnostics
           </button>
         </div>
       </div>
 
       {/* 1. OVERVIEW CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard 
           title="Total Checks" 
           value={stats?.total_checks?.toLocaleString() || "14,285"} 
@@ -120,13 +122,13 @@ export default function AdminAnalyticsPage() {
         <StatCard 
           title="High Risk Cases" 
           value={stats?.high_risk_cases?.toLocaleString() || "342"} 
-          trend="-2.1% from yesterday" 
+          trend="-2.1% vs yesterday" 
           trendUp={false}
           icon={AlertTriangle} 
           color="rose"
         />
         <StatCard 
-          title="Daily Users" 
+          title="Daily Active Clinicians" 
           value={stats?.active_users?.toLocaleString() || "2,841"} 
           trend="+5.4% this week" 
           trendUp={true}
@@ -134,7 +136,7 @@ export default function AdminAnalyticsPage() {
           color="violet"
         />
         <StatCard 
-          title="AI Accuracy" 
+          title="AI Safety Accuracy" 
           value={`${stats?.ai_accuracy || 99.8}%`} 
           trend="Target: 99.5%" 
           trendUp={true}
@@ -144,15 +146,15 @@ export default function AdminAnalyticsPage() {
       </div>
 
       {/* 2. ANALYTICS CHARTS - Row 1 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Interaction Trends */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+        <div className="lg:col-span-2 glass-card p-6">
           <div className="flex justify-between items-center mb-6">
             <div>
-               <h3 className="text-lg font-bold text-slate-800">Interaction Analysis Trends</h3>
-               <p className="text-xs text-slate-500">Volume of AI interaction checks over the last 7 days.</p>
+               <h3 className="text-lg font-bold text-white tracking-tight">Interaction Analysis Trends</h3>
+               <p className="text-xs text-white/35 font-medium">Volume of AI interaction checks over the last 7 days.</p>
             </div>
-            <select className="bg-slate-50 border border-slate-200 text-slate-600 rounded-lg px-3 py-1.5 text-sm font-medium focus:ring-2 focus:ring-blue-500/20 outline-none">
+            <select className="text-xs font-bold text-white/50 bg-white/5 border border-white/8 rounded-xl px-3 py-2 outline-none focus:border-teal-500/50 cursor-pointer">
               <option>Last 7 Days</option>
               <option>Last 30 Days</option>
             </select>
@@ -162,28 +164,29 @@ export default function AdminAnalyticsPage() {
               <AreaChart data={trendData}>
                 <defs>
                   <linearGradient id="colorInteractions" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2}/>
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#0d9488" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#0d9488" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dx={-10} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: 600 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: 600 }} dx={-5} />
                 <Tooltip 
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} 
-                  cursor={{ stroke: '#cbd5e1', strokeWidth: 1, strokeDasharray: '4 4' }}
+                  contentStyle={{ backgroundColor: 'rgba(8,13,24,0.95)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', backdropFilter: 'blur(20px)' }} 
+                  itemStyle={{ color: '#2dd4bf', fontWeight: 700 }}
+                  cursor={{ stroke: 'rgba(13,148,136,0.3)', strokeWidth: 1, strokeDasharray: '4 4' }}
                 />
-                <Area type="monotone" dataKey="interactions" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorInteractions)" activeDot={{ r: 6, strokeWidth: 0, fill: '#3b82f6' }} />
+                <Area type="monotone" dataKey="interactions" stroke="#0d9488" strokeWidth={3} fillOpacity={1} fill="url(#colorInteractions)" activeDot={{ r: 6, fill: '#0d9488', stroke: 'rgba(13,148,136,0.3)', strokeWidth: 4 }} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Risk Distribution */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col">
+        <div className="glass-card p-6 flex flex-col">
           <div>
-            <h3 className="text-lg font-bold text-slate-800">Risk Distribution</h3>
-            <p className="text-xs text-slate-500">Severity classification across all queries.</p>
+            <h3 className="text-lg font-bold text-white tracking-tight">Risk Stratification</h3>
+            <p className="text-xs text-white/35 font-medium">Severity classification across clinical checks.</p>
           </div>
           <div className="flex-1 min-h-[200px] flex items-center justify-center relative">
             <ResponsiveContainer width="100%" height="100%">
@@ -202,19 +205,19 @@ export default function AdminAnalyticsPage() {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(8,13,24,0.95)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }} />
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-3xl font-bold text-slate-800">9.1k</span>
-              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total</span>
+              <span className="text-3xl font-bold text-white">9,141</span>
+              <span className="text-[9px] uppercase font-bold text-white/30 tracking-widest mt-0.5">Total Cases</span>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-y-3 gap-x-2 mt-4">
+          <div className="grid grid-cols-2 gap-y-3 gap-x-2 mt-4 pt-4 border-t border-white/6">
             {riskData.map((item) => (
               <div key={item.name} className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: item.color }}></div>
-                <span className="text-xs font-semibold text-slate-600">{item.name}</span>
+                <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color }}></div>
+                <span className="text-xs font-semibold text-white/60">{item.name}</span>
               </div>
             ))}
           </div>
@@ -222,48 +225,48 @@ export default function AdminAnalyticsPage() {
       </div>
 
       {/* ANALYTICS CHARTS - Row 2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Most Searched Drugs */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+        <div className="glass-card p-6">
           <div className="flex justify-between items-center mb-6">
-             <h3 className="text-lg font-bold text-slate-800">Most Queried Drugs</h3>
-             <button className="text-slate-400 hover:text-slate-600"><MoreVertical size={18} /></button>
+             <h3 className="text-lg font-bold text-white tracking-tight">Most Checked Medications</h3>
+             <button className="text-white/40 hover:text-white/70"><MoreVertical size={18} /></button>
           </div>
           <div className="space-y-5">
             {stats?.top_drugs?.map((item: any, i: number) => (
               <div key={i}>
-                <div className="flex justify-between text-sm mb-1.5">
-                  <span className="text-slate-700 font-bold">{item.label}</span>
-                  <span className="text-slate-500 font-medium">{item.count} queries</span>
+                <div className="flex justify-between text-sm mb-1.5 font-medium">
+                  <span className="text-white/80 font-semibold">{item.label}</span>
+                  <span className="text-white/45">{item.count} queries</span>
                 </div>
-                <div className="w-full bg-slate-100 rounded-full h-2">
-                  <div className="bg-indigo-500 h-2 rounded-full" style={{ width: `${item.progress}%` }}></div>
+                <div className="w-full bg-white/5 border border-white/5 rounded-full h-2">
+                  <div className="bg-gradient-to-r from-teal-500 to-sky-400 h-2 rounded-full" style={{ width: `${item.progress}%` }}></div>
                 </div>
               </div>
             ))}
             {!stats?.top_drugs?.length && (
-              <div className="py-8 text-center text-slate-400 text-sm">No drugs queried yet. Wait for incoming RAG requests.</div>
+              <div className="py-8 text-center text-white/30 text-sm font-medium">No drugs queried yet. Wait for incoming RAG requests.</div>
             )}
           </div>
         </div>
 
         {/* Emergency Alerts Graph */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+        <div className="glass-card p-6">
            <div className="flex justify-between items-center mb-6">
               <div>
-                 <h3 className="text-lg font-bold text-slate-800">Emergency Alert Volume</h3>
-                 <p className="text-xs text-slate-500">Contraindicated interactions detected over time.</p>
+                 <h3 className="text-lg font-bold text-white tracking-tight">Contraindicated Advisory Volume</h3>
+                 <p className="text-xs text-white/35 font-medium">Contraindicated interactions detected over time.</p>
               </div>
            </div>
            <div className="h-[220px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={alertData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dx={-10} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: 600 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: 600 }} dx={-5} />
                 <Tooltip 
-                  cursor={{ fill: '#f1f5f9' }}
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} 
+                  cursor={{ fill: 'rgba(255,255,255,0.02)' }}
+                  contentStyle={{ backgroundColor: 'rgba(8,13,24,0.95)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', color: '#fff' }} 
                 />
                 <Bar dataKey="alerts" fill="#f43f5e" radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
@@ -273,50 +276,52 @@ export default function AdminAnalyticsPage() {
       </div>
 
       {/* Row 3: RECENT ANALYSIS TABLE & USER ACTIVITY */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-6 overflow-hidden flex flex-col">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-slate-800">Recent Analysis Queries</h3>
-            <button className="text-blue-600 font-semibold text-sm hover:underline">View All</button>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 glass-card overflow-hidden flex flex-col">
+          <div className="flex justify-between items-center p-6 border-b border-white/6">
+            <h3 className="text-lg font-bold text-white tracking-tight">Recent High-Risk Cases</h3>
+            <button className="text-xs font-bold text-teal-400 hover:text-teal-300 transition-colors uppercase tracking-widest font-sans">View Log</button>
           </div>
           <div className="overflow-x-auto flex-1">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                  <th className="pb-3 px-2">Drugs Checked</th>
-                  <th className="pb-3 px-2">Severity</th>
-                  <th className="pb-3 px-2">Timestamp</th>
-                  <th className="pb-3 px-2">Confidence</th>
-                  <th className="pb-3 px-2">Status</th>
+                <tr className="border-b border-white/5">
+                  <th className="py-3 px-5 text-[10px] font-bold text-white/25 uppercase tracking-widest">Medications Checked</th>
+                  <th className="py-3 px-5 text-[10px] font-bold text-white/25 uppercase tracking-widest">Severity</th>
+                  <th className="py-3 px-5 text-[10px] font-bold text-white/25 uppercase tracking-widest">Timestamp</th>
+                  <th className="py-3 px-5 text-[10px] font-bold text-white/25 uppercase tracking-widest">Confidence</th>
+                  <th className="py-3 px-5 text-[10px] font-bold text-white/25 uppercase tracking-widest">Status</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
                 {stats?.recent_high_risk?.map((item: any, i: number) => (
-                  <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                    <td className="py-3 px-2">
-                       <span className="font-semibold text-slate-800">{item.title}</span>
+                  <tr key={i} className="border-b border-white/5 hover:bg-white/3 transition-colors">
+                    <td className="py-3.5 px-5">
+                       <span className="font-semibold text-white">{item.title}</span>
                     </td>
-                    <td className="py-3 px-2 flex items-center gap-2">
-                      <div className={cn("w-2 h-2 rounded-full", item.severity === 'High' ? 'bg-rose-500' : 'bg-amber-500')}></div>
-                      <span className="font-semibold text-slate-700">{item.severity} Risk</span>
+                    <td className="py-3.5 px-5">
+                      <div className="flex items-center gap-2">
+                        <div className={cn("w-2 h-2 rounded-full", item.severity === 'High' ? 'bg-rose-500' : 'bg-amber-500')}></div>
+                        <span className="font-semibold text-white/80">{item.severity} Risk</span>
+                      </div>
                     </td>
-                    <td className="py-3 px-2 text-slate-500">{item.time}</td>
-                    <td className="py-3 px-2">
-                       <div className="flex items-center gap-2">
-                         <span className="font-bold text-slate-700">{item.confidence}%</span>
-                         <div className="w-12 bg-slate-100 rounded-full h-1.5">
+                    <td className="py-3.5 px-5 text-white/40">{item.time}</td>
+                    <td className="py-3.5 px-5">
+                       <div className="flex items-center gap-3">
+                         <span className="font-bold text-teal-400">{item.confidence}%</span>
+                         <div className="w-12 bg-white/5 border border-white/5 rounded-full h-1.5 overflow-hidden">
                            <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${item.confidence}%` }}></div>
                          </div>
                        </div>
                     </td>
-                    <td className="py-3 px-2">
-                      <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">Complete</span>
+                    <td className="py-3.5 px-5">
+                      <span className="badge badge-emerald">Verified</span>
                     </td>
                   </tr>
                 ))}
                 {!stats?.recent_high_risk?.length && (
                    <tr>
-                     <td colSpan={5} className="text-center py-10 text-slate-400 text-sm">
+                     <td colSpan={5} className="text-center py-12 text-white/25 font-medium text-sm">
                         No recent interaction queries to display.
                      </td>
                    </tr>
@@ -327,21 +332,21 @@ export default function AdminAnalyticsPage() {
         </div>
 
         {/* User Activity */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">User Activity</h3>
+        <div className="glass-card p-6">
+          <h3 className="text-lg font-bold text-white mb-6 tracking-tight">Active Clinician Feed</h3>
           <div className="space-y-6">
             {userActivity.map((activity, i) => (
               <div key={i} className="flex gap-4 relative">
                 {i !== userActivity.length - 1 && (
-                  <div className="absolute left-5 top-10 bottom-[-24px] w-px bg-slate-100"></div>
+                  <div className="absolute left-5 top-10 bottom-[-24px] w-px bg-white/5"></div>
                 )}
-                <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs ring-4 ring-white z-10 shrink-0">
+                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-teal-300 font-bold text-xs ring-4 ring-[#0b0f19] z-10 shrink-0">
                   {activity.avatar}
                 </div>
                 <div className="pt-1">
-                  <p className="text-sm font-bold text-slate-800">{activity.user}</p>
-                  <p className="text-sm text-slate-600 mt-0.5">{activity.action}</p>
-                  <p className="text-xs text-slate-400 font-medium mt-1 flex items-center gap-1">
+                  <p className="text-sm font-bold text-white">{activity.user}</p>
+                  <p className="text-sm text-white/60 mt-0.5">{activity.action}</p>
+                  <p className="text-xs text-white/30 font-medium mt-1 flex items-center gap-1">
                     <Clock size={12} /> {activity.time}
                   </p>
                 </div>
@@ -352,38 +357,39 @@ export default function AdminAnalyticsPage() {
       </div>
 
       {/* Row 4: AI SYSTEM STATUS & ALERT CENTER */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* AI SYSTEM STATUS */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">AI System Status</h3>
+        <div className="lg:col-span-2 glass-card p-6 flex flex-col">
+          <h3 className="text-lg font-bold text-white mb-6 tracking-tight">AI Infrastructure Health</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-             <StatusCard icon={Database} label="Pinecone Vector DB" status="Operational" latency="24ms" active={true} />
-             <StatusCard icon={BrainCircuit} label="LLM Inference (GPT-4 Turbo)" status="Operational" latency="1.2s" active={true} />
-             <StatusCard icon={Server} label="FastAPI Backend" status={`${stats?.uptime || "99.99%"} Uptime`} latency="45ms" active={true} />
-             <StatusCard icon={Zap} label="RAG Retrieval Engine" status="Optimal" latency="112ms" active={true} />
+             <StatusCard icon={Database} label="Chroma Vector DB" status="Operational" latency="14ms" active={true} />
+             <StatusCard icon={BrainCircuit} label="Local Scikit-Learn Model" status="Operational" latency="28ms" active={true} />
+             <StatusCard icon={Server} label="FastAPI Server" status={`${stats?.uptime || "99.99%"} Uptime`} latency="32ms" active={true} />
+             <StatusCard icon={Zap} label="RAG Advisory Synthesizer" status="Optimal" latency="95ms" active={true} />
           </div>
         </div>
 
         {/* ALERT CENTER */}
-        <div className="bg-rose-50 rounded-2xl shadow-sm border border-rose-100 p-6">
-           <div className="flex items-center gap-3 mb-6">
-             <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+        <div className="glass-card !border-rose-900/30 p-6 flex flex-col relative overflow-hidden group">
+           <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-500 bg-rose-500 filter blur-[20px]" />
+           <div className="flex items-center gap-3 mb-6 relative z-10">
+             <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center glow-rose">
                <BellRing size={20} />
              </div>
              <div>
-               <h3 className="text-lg font-bold text-slate-800">Alert Center</h3>
-               <p className="text-xs text-rose-600/80 font-medium tracking-wide">EMERGENCY REPORTS</p>
+               <h3 className="text-lg font-bold text-white tracking-tight">Safety Alert Feed</h3>
+               <p className="text-[9px] text-rose-400 font-bold uppercase tracking-widest mt-0.5">Critical Notifications</p>
              </div>
            </div>
            
-           <div className="space-y-3">
-             <AlertItem title="Multiple Contraindications" desc="3 high-risk alerts in last 10 mins" time="Just now" />
-             <AlertItem title="API Rate Limit Warning" desc="Pinecone DB 80% capacity" time="1h ago" type="warn" />
-             <AlertItem title="System Updated" desc="New clinical guidelines loaded" time="3h ago" type="info" />
+           <div className="space-y-3 flex-1 relative z-10">
+             <AlertItem title="Multiple Contraindications" desc="3 high-risk advisories in last 10 mins" time="Just now" />
+             <AlertItem title="Local Server Refresh" desc="FastAPI endpoint checked successfully" time="1h ago" type="warn" />
+             <AlertItem title="Safety Guidelines Sync" desc="Offline clinical rules successfully indexed" time="3h ago" type="info" />
            </div>
            
-           <button className="w-full mt-6 py-2.5 bg-white border border-rose-200 text-rose-600 rounded-lg text-sm font-bold shadow-sm hover:bg-rose-50 transition-colors">
-             View All Alerts
+           <button className="w-full mt-6 py-2.5 bg-white/5 border border-white/8 text-white hover:bg-white/10 rounded-xl text-xs font-bold shadow-sm transition-all uppercase tracking-wider font-sans">
+             View All Safety Alerts
            </button>
         </div>
       </div>
@@ -395,50 +401,54 @@ export default function AdminAnalyticsPage() {
 
 function StatCard({ title, value, trend, trendUp, icon: Icon, color }: any) {
   const colorMap: any = {
-    blue: "bg-blue-50 text-blue-600 border-blue-100",
-    rose: "bg-rose-50 text-rose-600 border-rose-100",
-    violet: "bg-violet-50 text-violet-600 border-violet-100",
-    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
+    blue:    { icon: 'text-teal-400',   bg: 'rgba(13,148,136,0.1)',  grad: 'from-teal-500 to-teal-400',   glow: 'rgba(13,148,136,0.4)' },
+    rose:    { icon: 'text-rose-400',   bg: 'rgba(244,63,94,0.1)',   grad: 'from-rose-500 to-rose-400',   glow: 'rgba(244,63,94,0.4)' },
+    violet:  { icon: 'text-sky-400', bg: 'rgba(14,165,233,0.1)',  grad: 'from-sky-500 to-sky-400',glow: 'rgba(14,165,233,0.4)' },
+    emerald: { icon: 'text-emerald-400',bg: 'rgba(16,185,129,0.1)',  grad: 'from-emerald-500 to-emerald-400',glow:'rgba(16,185,129,0.4)' },
   };
+  const c = colorMap[color];
   
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col relative overflow-hidden group">
-      <div className="flex justify-between items-start mb-4">
-        <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center border", colorMap[color])}>
-          <Icon size={24} />
+    <div className="glass-card p-6 flex flex-col gap-5 cursor-pointer group relative overflow-hidden">
+      <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full opacity-20 group-hover:opacity-30 transition-opacity duration-500" style={{ background: c.glow, filter: 'blur(20px)' }} />
+      <div className="flex justify-between items-start">
+        <div className={cn("w-11 h-11 rounded-xl flex items-center justify-center border border-white/5", c.icon)} style={{ background: c.bg }}>
+          <Icon size={21} strokeWidth={1.75} />
         </div>
-        <div className={cn("flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full", trendUp ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700")}>
-          {trendUp ? <TrendingUp size={12} /> : <TrendingUp size={12} className="rotate-180" />}
+        <div className={cn("flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/5", trendUp ? "bg-emerald-500/10 text-emerald-400" : "bg-rose-500/10 text-rose-400")}>
+          {trendUp ? <TrendingUp size={10} /> : <TrendingUp size={10} className="rotate-180" />}
           {trend}
         </div>
       </div>
-      <h3 className="text-3xl font-bold text-slate-800 mb-1">{value}</h3>
-      <p className="text-sm font-semibold text-slate-500">{title}</p>
+      <div>
+        <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-1.5">{title}</p>
+        <h3 className="text-3xl font-bold text-white tracking-tight">{value}</h3>
+      </div>
     </div>
   );
 }
 
 function StatusCard({ icon: Icon, label, status, latency, active }: any) {
   return (
-    <div className="border border-slate-100 rounded-xl p-4 flex items-center justify-between hover:border-slate-200 transition-colors bg-slate-50/50">
+    <div className="border border-white/5 rounded-xl p-4 flex items-center justify-between hover:border-white/10 transition-all bg-white/2">
       <div className="flex items-center gap-3">
-         <div className="w-10 h-10 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-slate-600 shadow-sm">
+         <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center text-teal-300 shadow-sm">
            <Icon size={18} />
          </div>
          <div>
-           <p className="text-sm font-bold text-slate-800">{label}</p>
-           <p className="text-xs text-slate-500 mt-0.5">{status}</p>
+           <p className="text-sm font-bold text-white">{label}</p>
+           <p className="text-xs text-white/40 mt-0.5 font-medium">{status}</p>
          </div>
       </div>
       <div className="text-right">
         <div className="flex justify-end mb-1">
           {active ? (
-            <CheckCircle2 size={16} className="text-emerald-500" />
+            <CheckCircle2 size={16} className="text-emerald-400" />
           ) : (
-            <AlertCircle size={16} className="text-rose-500" />
+            <AlertCircle size={16} className="text-rose-400" />
           )}
         </div>
-        <span className="text-xs font-bold text-slate-400">{latency} run</span>
+        <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">{latency}</span>
       </div>
     </div>
   );
@@ -446,14 +456,14 @@ function StatusCard({ icon: Icon, label, status, latency, active }: any) {
 
 function AlertItem({ title, desc, time, type = "error" }: any) {
   return (
-    <div className="bg-white rounded-xl p-3 border border-rose-100/50 flex gap-3 shadow-sm">
+    <div className="bg-white/2 rounded-xl p-3 border border-white/5 flex gap-3 shadow-sm hover:border-white/10 transition-colors">
       <div className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ 
-        backgroundColor: type === 'error' ? '#f43f5e' : type === 'warn' ? '#f59e0b' : '#3b82f6' 
+        backgroundColor: type === 'error' ? '#f43f5e' : type === 'warn' ? '#fb7185' : '#38bdf8' 
       }}></div>
       <div>
-        <p className="text-sm font-bold text-slate-800">{title}</p>
-        <p className="text-xs text-slate-500 mt-0.5">{desc}</p>
-        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-2">{time}</p>
+        <p className="text-sm font-bold text-white">{title}</p>
+        <p className="text-xs text-white/40 mt-0.5 font-medium">{desc}</p>
+        <p className="text-[9px] text-white/25 font-bold uppercase tracking-wider mt-2">{time}</p>
       </div>
     </div>
   );

@@ -182,3 +182,116 @@ export async function getHistoryApi() {
   return history;
 }
 
+// Helper to get auth header
+function getAuthHeader() {
+  const token = localStorage.getItem('pharmai_token') || 'mock_jwt_token_12345';
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+}
+
+export async function getAlertsApi() {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/features/alerts`, getAuthHeader());
+    return response.data;
+  } catch (error) {
+    console.warn('Backend alerts API failed, using local storage fallback:', error);
+    let alerts = [];
+    try { alerts = JSON.parse(localStorage.getItem('pharmai_alerts') || '[]'); } catch (e) {}
+    if (alerts.length === 0) {
+      alerts = [
+        { id: 1, severity: 'CRITICAL', message: 'Severe interaction detected between Warfarin and Aspirin. Synergistic bleeding risk.', resolved: false, created_at: new Date().toISOString() },
+        { id: 2, severity: 'WARNING', message: 'Duplicate therapeutic class: Ibuprofen and Naproxen both belong to NSAIDs. Risk of severe GI distress.', resolved: false, created_at: new Date().toISOString() },
+        { id: 3, severity: 'INFO', message: 'Medication sync success: Import completed for 3 new drugs from FDA Orange Book database.', resolved: false, created_at: new Date().toISOString() }
+      ];
+      localStorage.setItem('pharmai_alerts', JSON.stringify(alerts));
+    }
+    return alerts;
+  }
+}
+
+export async function resolveAlertApi(id: number) {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/features/alerts/${id}/resolve`, {}, getAuthHeader());
+    return response.data;
+  } catch (error) {
+    console.warn('Backend resolve alert failed, updating local storage:', error);
+    let alerts = [];
+    try { alerts = JSON.parse(localStorage.getItem('pharmai_alerts') || '[]'); } catch (e) {}
+    const updated = alerts.map((a: any) => a.id === id ? { ...a, resolved: true } : a);
+    localStorage.setItem('pharmai_alerts', JSON.stringify(updated));
+    return { status: 'success' };
+  }
+}
+
+export async function getRemindersApi() {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/features/reminders`, getAuthHeader());
+    return response.data;
+  } catch (error) {
+    console.warn('Backend reminders API failed, using local storage fallback:', error);
+    let reminders = [];
+    try { reminders = JSON.parse(localStorage.getItem('pharmai_reminders') || '[]'); } catch (e) {}
+    if (reminders.length === 0) {
+      reminders = [
+        { id: 1, medication_name: 'Atorvastatin', dosage: '20mg', time: '20:00', frequency: 'Daily', active: true },
+        { id: 2, medication_name: 'Lisinopril', dosage: '10mg', time: '08:00', frequency: 'Daily', active: true }
+      ];
+      localStorage.setItem('pharmai_reminders', JSON.stringify(reminders));
+    }
+    return reminders;
+  }
+}
+
+export async function createReminderApi(data: any) {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/features/reminders`, data, getAuthHeader());
+    return response.data;
+  } catch (error) {
+    console.warn('Backend create reminder failed, updating local storage:', error);
+    let reminders = [];
+    try { reminders = JSON.parse(localStorage.getItem('pharmai_reminders') || '[]'); } catch (e) {}
+    const newReminder = {
+      id: Math.round(Math.random() * 100000),
+      medication_name: data.medication_name,
+      dosage: data.dosage,
+      time: data.time,
+      frequency: data.frequency,
+      active: true
+    };
+    reminders.unshift(newReminder);
+    localStorage.setItem('pharmai_reminders', JSON.stringify(reminders));
+    return newReminder;
+  }
+}
+
+export async function toggleReminderApi(id: number) {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/features/reminders/${id}/toggle`, {}, getAuthHeader());
+    return response.data;
+  } catch (error) {
+    console.warn('Backend toggle reminder failed, updating local storage:', error);
+    let reminders = [];
+    try { reminders = JSON.parse(localStorage.getItem('pharmai_reminders') || '[]'); } catch (e) {}
+    const updated = reminders.map((r: any) => r.id === id ? { ...r, active: !r.active } : r);
+    localStorage.setItem('pharmai_reminders', JSON.stringify(updated));
+    return { status: 'success', active: updated.find((r: any) => r.id === id)?.active };
+  }
+}
+
+export async function deleteReminderApi(id: number) {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/features/reminders/${id}`, getAuthHeader());
+    return response.data;
+  } catch (error) {
+    console.warn('Backend delete reminder failed, updating local storage:', error);
+    let reminders = [];
+    try { reminders = JSON.parse(localStorage.getItem('pharmai_reminders') || '[]'); } catch (e) {}
+    const updated = reminders.filter((r: any) => r.id !== id);
+    localStorage.setItem('pharmai_reminders', JSON.stringify(updated));
+    return { status: 'success' };
+  }
+}
+

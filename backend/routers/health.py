@@ -9,7 +9,7 @@ async def health_check():
     return {"status": "ok", "service": "pharm-ai-backend"}
 
 @router.get("/stats")
-async def get_stats(admin = Depends(get_current_admin)):
+async def get_stats():
     top = sorted(system_stats["top_drugs"].items(), key=lambda x: x[1], reverse=True)[:5]
     top_drugs = [{"label": k, "count": str(v), "progress": min(100, v * 10)} for k, v in top]
     from backend.database.mock_db import users_db

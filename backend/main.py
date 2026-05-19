@@ -1,7 +1,10 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from backend.models.auth import UserInDB
+from backend.services.auth_service import get_current_active_user
+from backend.database.config import get_db
 
 # Load environment variables
 load_dotenv()
@@ -35,8 +38,32 @@ app.include_router(analysis.router)
 app.include_router(drugs.router)
 app.include_router(features.router)
 
+# Root compliance alias endpoints
+@app.post("/api/upload-prescription")
+async def upload_prescription_alias(file: UploadFile = File(...)):
+    from backend.routers.features import extract_prescription
+    return await extract_prescription(file)
+
+@app.post("/api/voice-check")
+async def voice_check_alias(file: UploadFile = File(...)):
+    from backend.routers.features import voice_to_text
+    return await voice_to_text(file)
+
+@app.get("/api/history")
+async def history_alias(current_user: UserInDB = Depends(get_current_active_user), db = Depends(get_db)):
+    from backend.routers.history import get_user_history
+    return get_user_history(current_user, db)
+
+
 @app.on_event("startup")
 async def startup_event():
+    from backend.database.config import engine
+    from backend.database.models import Base
+    try:
+        Base.metadata.create_all(bind=engine)
+        logger.info("PostgreSQL/SQLite Database tables initialized successfully.")
+    except Exception as e:
+        logger.error(f"Failed to initialize database tables: {e}")
     logger.info("PharmAI Backend started successfully.")
 
 if __name__ == "__main__":

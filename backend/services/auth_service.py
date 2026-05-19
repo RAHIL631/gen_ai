@@ -50,10 +50,32 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except JWTError:
         raise credentials_exception
         
-    user = users_db.get(token_data.username)
-    if user is None:
-        raise credentials_exception
-    return user
+    from backend.database.config import SessionLocal
+    from backend.database.models import User as DBUser
+    from backend.models.auth import UserInDB, RoleEnum
+    
+    db = SessionLocal()
+    try:
+        db_user = db.query(DBUser).filter(DBUser.username == token_data.username).first()
+        if db_user is None:
+            # Check if there is an in-memory database user (e.g. for fallback/testing)
+            from backend.database.mock_db import users_db
+            user = users_db.get(token_data.username)
+            if user is None:
+                raise credentials_exception
+            return user
+            
+        user = UserInDB(
+            username=db_user.username,
+            email=db_user.email,
+            hashed_password=db_user.hashed_password,
+            role=RoleEnum(role) if role else RoleEnum.USER,
+            age=db_user.age,
+            health_conditions=db_user.health_conditions or []
+        )
+        return user
+    finally:
+        db.close()
 
 async def get_current_active_user(current_user = Depends(get_current_user)):
     if not current_user.is_active:
@@ -64,3 +86,4 @@ async def get_current_admin(current_user = Depends(get_current_active_user)):
     if current_user.role != RoleEnum.ADMIN:
         raise HTTPException(status_code=403, detail="Not enough privileges")
     return current_user
+

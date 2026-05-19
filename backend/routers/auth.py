@@ -13,6 +13,10 @@ from backend.services.auth_service import (
 from backend.database.mock_db import users_db
 from backend.utils.logger import get_logger
 
+from backend.database.config import get_db
+from backend.database.models import User as DBUser
+from sqlalchemy.orm import Session
+
 logger = get_logger(__name__)
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
@@ -25,23 +29,59 @@ users_db[admin_username] = UserInDB(
     role=RoleEnum.ADMIN
 )
 
+# Seed admin into the persistent DB on router import if not present
+from backend.database.config import SessionLocal
+db_seed = SessionLocal()
+try:
+    existing_admin = db_seed.query(DBUser).filter(DBUser.username == admin_username).first()
+    if not existing_admin:
+        new_admin = DBUser(
+            username=admin_username,
+            email="admin@pharmai.com",
+            hashed_password=get_password_hash("admin123"),
+            age=35,
+            health_conditions=[]
+        )
+        db_seed.add(new_admin)
+        db_seed.commit()
+        logger.info("Admin seeded successfully into persistent database.")
+except Exception as e:
+    logger.error(f"Error seeding admin into DB: {e}")
+finally:
+    db_seed.close()
+
 @router.post("/register", response_model=UserResponse)
-async def register(user: UserCreate):
+async def register(user: UserCreate, db: Session = Depends(get_db)):
+    # Check DB persistent
+    db_existing = db.query(DBUser).filter((DBUser.username == user.username) | (DBUser.email == user.email)).first()
+    if db_existing:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username or email already registered"
+        )
+        
+    # Check mock fallback
     if user.username in users_db:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Username already registered"
         )
-    # Check email duplicate
-    for u in users_db.values():
-        if u.email == user.email:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email already registered"
-            )
             
     hashed_password = get_password_hash(user.password)
-    # Automatically assign ADMIN if they use admin token/secret, or just standard role
+    
+    # Save to persistent database
+    new_db_user = DBUser(
+        username=user.username,
+        email=user.email,
+        hashed_password=hashed_password,
+        age=30, # Default placeholder
+        health_conditions=[]
+    )
+    db.add(new_db_user)
+    db.commit()
+    db.refresh(new_db_user)
+
+    # Save to mock database for compatibility
     new_user = UserInDB(
         username=user.username,
         email=user.email,
@@ -49,12 +89,28 @@ async def register(user: UserCreate):
         role=RoleEnum.USER
     )
     users_db[user.username] = new_user
-    logger.info(f"Registered new user: {user.username}")
+    logger.info(f"Registered new user: {user.username} in database.")
     return new_user
 
 @router.post("/login", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = users_db.get(form_data.username)
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    # Try finding in persistent DB
+    db_user = db.query(DBUser).filter(DBUser.username == form_data.username).first()
+    
+    user = None
+    if db_user:
+        user = UserInDB(
+            username=db_user.username,
+            email=db_user.email,
+            hashed_password=db_user.hashed_password,
+            role=RoleEnum.ADMIN if db_user.username == "admin" else RoleEnum.USER,
+            age=db_user.age,
+            health_conditions=db_user.health_conditions or []
+        )
+    else:
+        # Fallback to mock DB
+        user = users_db.get(form_data.username)
+        
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -77,3 +133,4 @@ async def read_users_me(current_user: UserInDB = Depends(get_current_active_user
 @router.get("/admin-only", response_model=dict)
 async def admin_only_test(current_user: UserInDB = Depends(get_current_admin)):
     return {"message": f"Welcome Admin {current_user.username}"}
+

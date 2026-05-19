@@ -136,6 +136,8 @@ def perform_ml_analysis(medications_text: str, extracted_drugs: List[str]) -> An
                 drugs=[drug_a, drug_b],
                 severity=sev_enum,
                 type=type_,
+                reason=f"Both medications {drug_a} and {drug_b} interact via {type_} mechanisms.",
+                source="DrugBank / TWOSIDES",
                 mechanism=mech,
                 recommendation=rec,
                 confidence=float(confidence)
@@ -146,6 +148,13 @@ def perform_ml_analysis(medications_text: str, extracted_drugs: List[str]) -> An
                 description=f"{mech} {rec}",
                 severity="error" if sev_enum in [SeverityEnum.MAJOR, SeverityEnum.CONTRAINDICATED] else "warning"
             ))
+            
+            if confidence < 0.75:
+                insights.append(ClinicalInsight(
+                    title=f"Low Confidence: {drug_a} + {drug_b}",
+                    description="Low confidence prediction. Consult healthcare provider for verification.",
+                    severity="warning"
+                ))
             
     if not insights:
          insights.append(ClinicalInsight(title="Regimen Safe", description="No high-risk pharmacological anomalies detected in current regimen.", severity="info"))
