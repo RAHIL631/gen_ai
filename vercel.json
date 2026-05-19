@@ -1,20 +1,12 @@
 {
-  "version": 2,
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index.py"
+      "source": "/api/:path*",
+      "destination": "https://pharmai-backend.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "functions": {
-    "api/*.py": {
-      "runtime": "vercel-python@0.22.0",
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  }
+  ]
 }
