@@ -1,3 +1,17 @@
+# Monkeypatch bcrypt to prevent passlib from crashing in Python 3.13+
+try:
+    import bcrypt
+    _orig_hashpw = bcrypt.hashpw
+    def _patched_hashpw(password, salt):
+        if isinstance(password, str):
+            password = password.encode('utf-8')
+        if len(password) > 72:
+            password = password[:72]
+        return _orig_hashpw(password, salt)
+    bcrypt.hashpw = _patched_hashpw
+except Exception:
+    pass
+
 import os
 from fastapi import FastAPI, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware

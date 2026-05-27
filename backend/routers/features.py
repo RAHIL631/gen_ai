@@ -1,17 +1,29 @@
 import os
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pydantic import BaseModel
-import pytesseract
 from PIL import Image
 import io
-import speech_recognition as sr
-from pydub import AudioSegment
 import networkx as nx
+
+# Safe resilient imports for optional audio/OCR libraries
+try:
+    import pytesseract
+    HAS_TESSERACT = True
+except ImportError:
+    HAS_TESSERACT = False
+
+try:
+    import speech_recognition as sr
+    from pydub import AudioSegment
+    HAS_SPEECH = True
+except ImportError:
+    HAS_SPEECH = False
 
 router = APIRouter(prefix="/api/features", tags=["Advanced Features"])
 
 # Configure Tesseract path for Windows
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# if HAS_TESSERACT:
+#     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 class PatientRiskRequest(BaseModel):
     age: int
@@ -27,6 +39,8 @@ async def extract_prescription(file: UploadFile = File(...)):
     try:
         contents = await file.read()
         try:
+            if not HAS_TESSERACT:
+                raise ValueError("Tesseract OCR library not installed.")
             image = Image.open(io.BytesIO(contents))
             text = pytesseract.image_to_string(image)
             if not text.strip():
@@ -53,6 +67,8 @@ async def voice_to_text(file: UploadFile = File(...)):
         audio_file = io.BytesIO(contents)
         
         try:
+            if not HAS_SPEECH:
+                raise ValueError("SpeechRecognition libraries not installed.")
             recognizer = sr.Recognizer()
             with sr.AudioFile(audio_file) as source:
                 audio_data = recognizer.record(source)

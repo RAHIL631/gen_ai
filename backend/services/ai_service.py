@@ -1,11 +1,17 @@
 import os
-import chromadb
-from transformers import pipeline
 from typing import List
 from backend.models.schemas import AnalysisResponse, Interaction, ClinicalInsight, SeverityEnum
 from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
+
+try:
+    import chromadb
+    from transformers import pipeline
+    HAS_AI_LIBRARIES = True
+except ImportError:
+    logger.warning("Heavy AI libraries (chromadb/transformers) not available. Running in high-fidelity clinical knowledge base fallback mode.")
+    HAS_AI_LIBRARIES = False
 
 class AIService:
     def __init__(self):
@@ -20,18 +26,18 @@ class AIService:
         
     def load_models(self):
         try:
-            if os.path.exists(self.model_dir):
+            if HAS_AI_LIBRARIES and os.path.exists(self.model_dir):
                 logger.info("Loading PubMedBERT classifier...")
                 self.classifier = pipeline('text-classification', model=self.model_dir)
             else:
-                logger.warning(f"PubMedBERT model not found at {self.model_dir}. Using fallback.")
+                logger.warning("PubMedBERT model not found or heavy libraries not loaded. Using clinical safety layer fallback.")
                 
-            if os.path.exists(self.db_path):
+            if HAS_AI_LIBRARIES and os.path.exists(self.db_path):
                 logger.info("Loading ChromaDB vector database...")
                 self.client = chromadb.PersistentClient(path=self.db_path)
                 self.collection = self.client.get_collection('drug_interactions')
             else:
-                logger.warning(f"ChromaDB not found at {self.db_path}. Using fallback.")
+                logger.warning("ChromaDB not found or heavy libraries not loaded. Using clinical safety layer fallback.")
         except Exception as e:
             logger.error(f"Failed to load AI models: {e}")
 

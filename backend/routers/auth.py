@@ -30,9 +30,12 @@ users_db[admin_username] = UserInDB(
 )
 
 # Seed admin into the persistent DB on router import if not present
-from backend.database.config import SessionLocal
+from backend.database.config import SessionLocal, engine
+from backend.database.models import Base
 db_seed = SessionLocal()
 try:
+    # Ensure all tables are created before seeding
+    Base.metadata.create_all(bind=engine)
     existing_admin = db_seed.query(DBUser).filter(DBUser.username == admin_username).first()
     if not existing_admin:
         new_admin = DBUser(
